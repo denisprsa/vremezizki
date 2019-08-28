@@ -1,0 +1,102 @@
+.forecast-chart-hour-item {
+    opacity: 0.4;
+    width: 96.5;
+    height: 463px;
+    border-right: 1px solid #ececec;
+    border-left: 1px solid #ececec;
+    position: relative;
+
+    text-align: center;
+
+    &:hover {
+        background-color: rgba(1,144,235,.3);
+        border-right: 1px solid rgba(1,144,235,.3);
+        cursor: pointer;
+    }
+
+    .forecast-chart-hour-item-time {
+        font-weight: bold;
+        font-family: "PT Sans";
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+
+    .forecast-chart-hour-item-icon-status {
+        .forecast-chart-hour-item-icon-status-wrapper {
+            width: 50px;
+            height: 50px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+    }
+
+    .forecast-chart-hour-item-graph {
+        position: relative;
+        margin-top: 10px;
+        background-color: rgba(1,144,235,.3);
+
+        .forecast-chart-hour-item-graph-line {
+            position: absolute;
+            height: 1px;
+            border-bottom: 1px dashed rgba(0, 0, 0, 0.356);
+            width: 100%;
+            z-index: 0;
+        }
+
+        .forecast-chart-hour-item-graph-line-1 {
+            border-bottom: 1px solid rgba(0, 0, 0, 0.256);
+            top: 0px;
+            left: 0px;
+        }
+
+        .forecast-chart-hour-item-graph-line-2 {
+            top: 40px;
+            left: 0px;
+        }
+
+        .forecast-chart-hour-item-graph-line-3 {
+            top: 80px;
+            left: 0px;
+        }
+
+        .forecast-chart-hour-item-graph-line-4 {
+            top: 120px;
+            left: 0px;
+        }
+
+        .forecast-chart-hour-item-graph-line-5 {
+            border-bottom: 1px solid rgba(0, 0, 0, 0.256);
+            top: 160px;
+            left: 0px;
+        }
+
+        .forecast-chart-hour-item-graph-wrapper {
+            position: relative;
+            z-index: 1;
+        }
+    }
+
+    .forecast-chart-hour-item-data {
+        .forecast-chart-hour-item-value-wrapper {
+            font-weight: 500;
+            font-size: 14px;
+            text-align: center;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            .forecast-chart-hour-item-value {
+
+            }
+            .forecast-chart-hour-item-unit {
+                font-size: 11px;
+                padding-bottom: 7px;
+            }
+        }
+    }
+}
+
+.forecast-chart-hour-item.forecast-chart-hour-active {
+    opacity: 1;
+}

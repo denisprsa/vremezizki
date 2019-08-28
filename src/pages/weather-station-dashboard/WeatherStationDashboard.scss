@@ -1,0 +1,27 @@
+.glide-slider-current-conditions {
+    max-width: 1360px;
+    margin-left: auto;
+    margin-right: auto;
+
+    .glide__slide {
+        margin-top: 5px;
+        margin-bottom: 8px;
+    }
+
+    .first-slider {
+        margin-left: 6px;
+    }
+}
+
+.current-weather-graphic-align {
+    text-align: center;
+    padding: 20px;
+}
+
+.clear {
+    &:after {
+        content: " ";
+        clear: both;
+        display: table;
+    }
+}

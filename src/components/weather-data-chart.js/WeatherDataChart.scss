@@ -1,0 +1,84 @@
+.line-chart-wrapper {
+    color: rgb(7, 71, 166);
+}
+
+
+.BarChart-selectionRect {
+    opacity: 0;
+}
+
+.overlay {
+    fill: none;
+    pointer-events: all;
+}
+
+.plotLayer {
+    .focus {
+        fill: black;
+    }
+}
+
+
+.axisLayer {
+	.x-axis {
+        color: #292929;
+        font-weight: 700;
+        font-family: "PT Sans";
+
+		.domain, .tick > line {
+            display: none;
+        }
+    }
+    .y-axis {
+        color: #292929;
+        font-weight: 700;
+        font-family: "PT Sans";
+
+        .domain {
+            display: none;
+        }
+		.domain, .tick > line {
+            display: none;
+        }
+    }
+
+	.yGrid {
+        color: #e0e0e0;
+
+		.domain {
+            display: none;
+        }
+		.tick > line {
+            stroke-dasharray: 0;
+        }
+    }
+}
+
+.valueLine {			
+    stroke-width: 2;
+    stroke: #4287e4;		
+}
+
+.temperature-main-wrapper {
+    display: flex;
+    
+}
+
+.weather-data-line-text-value {
+    text {
+        font-family: "PT Sans";
+        font-size: 15px;
+    }
+
+    rect {
+        fill: rgba(255, 255, 255, 0.9);
+        stroke: #000;
+        stroke-width: 1px;
+    }
+}
+
+@media screen and (max-width: 449px) {
+    .valueLine {
+        stroke-width: 3;	
+    }
+}

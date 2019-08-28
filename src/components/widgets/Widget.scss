@@ -1,0 +1,32 @@
+.dashboard-widget {
+    padding: 20px;
+    background-color: white;
+    box-shadow: 0 2px 6px 0 rgba(0,0,0,.2);
+    border: 1px solid #c6d2e1;
+    border-radius: 5px;
+}
+
+.dashboard-widget.no-left-right-padding {
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+.widget-title {
+    text-align: center;
+    padding-bottom: 20px;
+    border-radius: 5px 5px 0 0;
+    color: #4d4d4d;
+    font-weight: 700;
+    font-family: "PT Sans";
+    font-size: 22px;
+}
+
+.widget-title.up-20 {
+    padding-top: 20px;
+}
+
+.widget-text {
+    text-align: justify;
+    font-family: "PT Sans";
+    font-size: 15px;
+}

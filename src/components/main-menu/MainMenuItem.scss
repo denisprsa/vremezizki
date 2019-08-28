@@ -1,0 +1,36 @@
+.main-menu-item {
+    width: 70px;
+    height: 70px;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+
+    path {
+        fill: #fff;
+    }
+
+    &:hover {
+        background-color: rgba(255, 255, 255, 0.2);
+        cursor: pointer;
+
+        path {
+            fill: rgb(216, 216, 216);
+        }
+    }
+
+    &>span {
+        width: 100%;
+    }
+
+
+    .main-menu-item-icon {
+        width: 35px;
+        height: 35px;
+    }
+}
+
+.main-menu-item.active {
+    width: 67px;
+    border-left: 3px solid white;
+    background-color: rgba(255, 255, 255, 0.2);
+}

@@ -1,0 +1,22 @@
+.glide__arrows {
+    display: flex;
+    align-content: center;
+    justify-content: center;
+
+    .glide__arrow {
+        float: left;
+
+        &:hover {
+            cursor: pointer;
+        }
+
+        svg {
+            width: 20px;
+            height: 20px;
+        }
+    }
+
+    .glide__arrow--left {
+        margin-right: 20px;
+    }
+}

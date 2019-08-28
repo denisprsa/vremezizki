@@ -1,0 +1,25 @@
+.forecast-chart {
+    //
+
+    .forecast-chart-days-wrapper {
+        width: calc(100% - 100px);
+        margin-left: auto;
+        margin-right: auto;
+        position: relative;
+
+        .glide__arrows {
+            .glide__arrow {
+                position: absolute;
+                top: calc(50% - 8px);
+            }
+
+            .glide__arrow--left {
+                left: -30px;
+            }
+
+            .glide__arrow--right {
+                left: calc(100% + 10px);
+            }
+        }
+    }
+}

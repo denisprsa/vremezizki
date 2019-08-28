@@ -1,0 +1,43 @@
+.main-menu {
+    min-height: 100%;
+    width: 70px;
+    min-width: 70px;
+    background-color:rgb(7, 71, 166);
+    z-index: 1;
+    box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.4);
+    position: fixed;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    flex-direction: column;
+    
+    .main-menu-logo {
+        height: 55px;
+        width: 55px;
+        margin-top: 20px;
+        border: 2px solid #f7f7f7;
+        border-radius: 50%;
+        margin-left: 5px;
+    }
+
+    .center-height {
+        height: 280px;
+    }
+
+    .bottom-height {
+        height: 70px;
+    }
+
+    .center-main-menu {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .is-active {
+        .main-menu-item {
+            width: 67px;
+            border-left: 3px solid white;
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+    }
+}
