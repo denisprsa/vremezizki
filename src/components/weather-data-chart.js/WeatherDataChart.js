@@ -29,7 +29,7 @@ class WeatherDataChart extends React.Component {
         this.rainLineRef = React.createRef();
         this.pressureLineRef = React.createRef();
         this.plotHeight = 150;
-        this.plotMarginBottom = 30;
+        this.plotMarginBottom = 40;
         this.temperatureColor = '#d5202a';
         this.dewPointColor = '#5b9f49';
         this.humidityColor = '#87c404';
@@ -97,26 +97,28 @@ class WeatherDataChart extends React.Component {
         let temperaturePlotData = this.getPlotData(this.props.data.date, this.props.data.temperature, temperatureScale);
         let dewPointPlotData = this.getPlotData(this.props.data.date, this.props.data.dewPoint, temperatureScale);
 
-        let humidityYDomain = this.getYDomain(this.props.data.humidity, 2, 2);
+        let humidityYDomain = this.getYDomain(this.props.data.humidity, 10, 10);
+        humidityYDomain[1] = 100;
         let humidityScale = this.calculateScale(this.props.data.date, 5, humidityYDomain);
         let humidityMetadata = this.getMetadata(humidityScale, this.humidityColor);
         let humidityPlotData = this.getPlotData(this.props.data.date, this.props.data.humidity, humidityScale);
 
         let windSpeedDomain = this.getYDomain(this.props.data.windSpeed);
         let windGustsSpeedDomain = this.getYDomain(this.props.data.windGust);
-        let windYDomain = [Math.min(windGustsSpeedDomain[0], windSpeedDomain[0]) - 2, Math.max(windGustsSpeedDomain[1], windSpeedDomain[1]) + 2];
+        let windYDomain = [0, Math.max(windGustsSpeedDomain[1], windSpeedDomain[1]) + 2];
         let windScale = this.calculateScale(this.props.data.date, 5, windYDomain);
         let windSpeedMetadata = this.getMetadata(windScale, this.windSpeedColor);
         let windGustMetadata = this.getMetadata(windScale, this.windGustsColor);
         let windSpeedPlotData = this.getPlotData(this.props.data.date, this.props.data.windSpeed, windScale);
         let windGustPlotData = this.getPlotData(this.props.data.date, this.props.data.windGust, windScale);
 
-        let windDirectionYDomain = this.getYDomain(this.props.data.windDirection, 2, 2);
-        let windDirectionScale = this.calculateScale(this.props.data.date, 5, windDirectionYDomain);
+        let windDirectionYDomain = [0, 360];
+        let windDirectionScale = this.calculateScale(this.props.data.date, 7, windDirectionYDomain);
         let windDirectionMetadata = this.getMetadata(windDirectionScale, this.windDirectionColor);
         let windDirectionPlotData = this.getPlotData(this.props.data.date, this.props.data.windDirection, windDirectionScale);
         
-        let rainYDomain = this.getYDomain(this.props.data.rain, 1, 2);
+        let rainYDomain = this.getYDomain(this.props.data.rain, 0, 2);
+
         let rainScale = this.calculateScale(this.props.data.date, 5, rainYDomain);
         let rainMetadata = this.getMetadata(rainScale, this.rainColor);
         let rainPlotData = this.getPlotData(this.props.data.date, this.props.data.rain, rainScale);
@@ -166,8 +168,8 @@ class WeatherDataChart extends React.Component {
         let windYAxis = <YAxis metadata={plotData.windSpeedMetadata} transform={`translate(${0},${0})`}/>;
 
         let windDirectionScatterPlot = <ScatterPlot ref={this.windDirectionLineRef} metadata={plotData.windDirectionMetadata} plotData={plotData.windDirectionPlotData}/>;
-        let windDirectionYGrid = <YGrid metadata={plotData.windDirectionMetadata} />;
-        let windDirectionYAxis = <YAxis metadata={plotData.windDirectionMetadata} transform={`translate(${0},${0})`}/>;
+        let windDirectionYGrid = <YGrid tickValues={[0,60,120,180,240,300,360]} metadata={plotData.windDirectionMetadata} />;
+        let windDirectionYAxis = <YAxis tickValues={[0,60,120,180,240,300,360]} metadata={plotData.windDirectionMetadata} transform={`translate(${0},${0})`}/>;
     
         let rainLine = <Line ref={this.rainLineRef} metadata={plotData.rainMetadata} plotData={plotData.rainPlotData} unit="mm"/>;
         let rainYGrid = <YGrid metadata={plotData.rainMetadata} />;
@@ -324,7 +326,7 @@ class WeatherDataChart extends React.Component {
         </g>;
         
         let pressureAxis = <g className="axisLayer"
-            transform={`translate(${30}, ${(this.plotHeight + this.plotMarginBottom) * 5})`}>
+            transform={`translate(${50}, ${(this.plotHeight + this.plotMarginBottom) * 5})`}>
                 
             { pressureYAxis }
         </g>;
@@ -373,36 +375,42 @@ class WeatherDataChart extends React.Component {
         let textSize = this.getNodeSize(textWrapper.text);
         let gOffset = 8;
 
-        if (otherLinePosition) {
-            let difference = otherLinePosition.y - position.y;
-            
-            if (Math.abs(difference) - textSize.height < 0) {
-                let move = Math.abs(difference) - (textSize.height + 3);
-                let sign = difference < 0 ? -1 : 1;
-                otherLineYOffset = move * sign ;
+        if (position) {
+            if (otherLinePosition) {
+                let difference = otherLinePosition.y - position.y;
+                
+                if (Math.abs(difference) - textSize.height < 0) {
+                    let move = Math.abs(difference) - (textSize.height + 3);
+                    let sign = difference < 0 ? -1 : 1;
+                    otherLineYOffset = move * sign ;
+                }
             }
-        }
 
-        if (position.x > (this.state.width / 2)) {
-            gOffset = -(textSize.width + 5 + 3);
-        }
+            if (position.x > (this.state.width / 2)) {
+                gOffset = -(textSize.width + 5 + 3);
+            }
 
-        textWrapper.text.text(`${position.data.value.toFixed(1)} ${unit}`);
-        textWrapper.text.attr('fill', textColor);
-        textWrapper.rect.attr('height', textSize.height);
-        textWrapper.rect.attr('width', textSize.width + 5);
-        textWrapper.rect.attr('transform', `translate(-${2}, -${textSize.height > 3 ? textSize.height - 3 : 0})`);
-        textWrapper.g.attr('transform', `translate(${gOffset}, ${position.y + yOffset + otherLineYOffset})`);
-        return position;
+            textWrapper.text.text(`${position.data.value.toFixed(1)} ${unit}`);
+            textWrapper.text.attr('fill', textColor);
+            textWrapper.rect.attr('height', textSize.height);
+            textWrapper.rect.attr('width', textSize.width + 5);
+            textWrapper.rect.attr('transform', `translate(-${2}, -${textSize.height > 3 ? textSize.height - 3 : 0})`);
+            textWrapper.g.attr('transform', `translate(${gOffset}, ${position.y + yOffset + otherLineYOffset})`);
+            return position;
+        }
     }
 
     mousemove() {
         if (this.weatherDataChartRef.current) {
             const xy = d3.mouse(this.weatherDataChartRef.current);
-            this.weatherDataLine.attr('transform', `translate(${xy[0]}, 0)`);
             let chartHeight = this.plotHeight + this.plotMarginBottom;
 
             let temperaturePosition = this.setTextPosition(this.temperatureLineRef, this.temperatureTextValue, '°C', 0, this.temperatureColor);
+            
+            if (temperaturePosition) {
+                this.weatherDataLine.attr('transform', `translate(${temperaturePosition.x}, 0)`);
+            }
+    
             this.setTextPosition(this.dewPointLineRef, this.dewPointTextValue, '°C', 0, this.dewPointColor, temperaturePosition);
             this.setTextPosition(this.humidityLineRef, this.humidityTextValue, '%', chartHeight, this.humidityColor);
             let windSpeedPosition = this.setTextPosition(this.windSpeedLineRef, this.windSpeedTextValue, 'km/h', chartHeight * 2, this.windSpeedColor);
@@ -476,6 +484,10 @@ class WeatherDataChart extends React.Component {
                 { graphLines.windPlotLines }
                 { graphLines.windAxis }
 
+                { graphLines.windDirectionYGridG }
+                { graphLines.windDirectionPlotLines }
+                { graphLines.windDirectionAxis }
+
                 { graphLines.rainYGridG }
                 { graphLines.rainPlotLines }
                 { graphLines.rainAxis }
@@ -483,10 +495,6 @@ class WeatherDataChart extends React.Component {
                 { graphLines.pressureYGridG }
                 { graphLines.pressurePlotLines }
                 { graphLines.pressureAxis }
-
-                { graphLines.windDirectionYGridG }
-                { graphLines.windDirectionPlotLines }
-                { graphLines.windDirectionAxis }
 
                 <g className="weather-data-line">
 

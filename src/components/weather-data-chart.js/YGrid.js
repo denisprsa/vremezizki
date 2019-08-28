@@ -17,7 +17,8 @@ class YGrid extends React.Component {
         const axis = d3
             .axisRight(this.props.metadata.yScale)
             .tickSizeOuter(0)
-            .tickSizeInner(this.props.metadata.plotWidth);
+            .tickSizeInner(this.props.metadata.plotWidth)
+            .tickValues(this.props.tickValues);
 
         const node = this.anchorRef.current;
 
@@ -36,7 +37,8 @@ class YGrid extends React.Component {
 
 YGrid.propTypes = {
     metadata: PropTypes.object,
-    transform: PropTypes.string
+    transform: PropTypes.string,
+    tickValues: PropTypes.array
 }
 
 export default YGrid;

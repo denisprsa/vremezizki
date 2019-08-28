@@ -17,6 +17,12 @@ class ScatterPlot extends React.Component {
         const d0 = this.props.plotData[i - 1];
         const d1 = this.props.plotData[i];
 
+        if ((!d0 || !d1) && this.props.plotData.length > 1) {
+            return this.props.plotData[this.props.plotData.length - 2]
+        } else if ((!d0 || !d1) && this.props.plotData.length == 0) {
+            return;
+        }
+
         const d1x = d1.x - d0.x;
         const xyx = xy[0] - d0.x;
 

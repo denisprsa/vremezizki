@@ -14,7 +14,11 @@ class YAxis extends Component {
     }
 
     update() {
-        const axis = d3.axisLeft(this.props.metadata.yScale).tickFormat((d) => d);
+        const axis = d3
+            .axisLeft(this.props.metadata.yScale)
+            .tickValues(this.props.tickValues)
+            .tickFormat((d) => d);
+
         const node = this.anchorRef.current;
 
         if (node) {
@@ -33,7 +37,8 @@ class YAxis extends Component {
 
 YAxis.propTypes = {
     metadata: PropTypes.object,
-    transform: PropTypes.string
+    transform: PropTypes.string,
+    tickValues: PropTypes.array
 };
 
 export default YAxis;

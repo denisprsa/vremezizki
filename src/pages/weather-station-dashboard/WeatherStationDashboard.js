@@ -20,9 +20,10 @@ import Footer from './Footer';
 import ForecastChart from '../../components/forecast-chart/ForecastChart';
 import GetWeatherForecastText from '../../api/WeatherForecastText';
 import Moon from '../../components/moon/Moon';
+import WeatherDataChart from '../../components/weather-data-chart.js/WeatherDataChart';
+import { GetWeatherDataChartData } from '../../api/GetWeatherDataChartData';
 
 import './WeatherStationDashboard.scss';
-import WeatherDataChart from '../../components/weather-data-chart.js/WeatherDataChart';
 
 class WeatherStationDashboard extends React.Component {
     constructor(props) {
@@ -40,6 +41,18 @@ class WeatherStationDashboard extends React.Component {
                     weatherImage: data.weatherImage,
                     warning: data.warning,
                     outlook: data.outlook
+                });
+            })
+            .catch(err => {
+                if (err.name !== 'AbortError') {
+                    console.error(err);
+                }
+            });
+
+        GetWeatherDataChartData()
+            .then(data => {
+                this.setState({
+                    weatherDataChart: data
                 });
             })
             .catch(err => {
@@ -113,22 +126,37 @@ class WeatherStationDashboard extends React.Component {
             rain: [],
             date: []
         };
+        let weatherDataChart;
 
-        for (let i in data) {
-            for (let j = 0; j < 200; j++) {
-                if (i === 'date') {
-                    let date = new Date();
-                    date.setMinutes(date.getMinutes() - (199 - j));
-                    data[i].push(date);
-                } else {
-                    if (i === 'temperature') {
-                        data[i].push(Math.random() * 10 + 10);
-                    } else {
-                        data[i].push(Math.random() * 10);
-                    }
-                }
+        if (this.state && this.state.weatherDataChart) {
+            let lastDate;
+
+            for (let item of this.state.weatherDataChart) {
+                data.temperature.push(item.tmp);
+                data.dewPoint.push(item.ros);
+                data.humidity.push(item.vla);
+                data.windDirection.push(item.vetersm);
+                data.windGust.push(item.vetersu);
+                data.windSpeed.push(item.veter);
+                data.pressure.push(item.tlak);
+                data.rain.push(item.pad);
+                data.date.push(new Date(item.dat.replace(' ', 'T')));
+                lastDate = new Date(item.dat.replace(' ', 'T'));
             }
+
+            lastDate.setMinutes(lastDate.getMinutes() + 1);
+    
+            data.date.push(lastDate);
+
+            let endDayDate = new Date();
+            endDayDate.setHours(23);
+            endDayDate.setMinutes(59);
+            endDayDate.setSeconds(59);
+    
+            data.date.push(endDayDate);
         }
+
+        
 
         return (
             <div className="weather-station-dashboard">
