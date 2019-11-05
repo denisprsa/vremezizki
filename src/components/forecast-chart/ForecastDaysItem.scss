@@ -71,3 +71,24 @@
         box-shadow: 0 2px 6px 0 rgba(0,0,0,.2);
     }
 }
+
+
+@media screen and (max-width: 850px) {
+    .forecast-chart-days-item {
+    
+        .forecast-chart-days-item-wrapper {
+    
+            .forecast-chart-days-item-icon {
+
+            }
+    
+            .forecast-chart-days-item-date {
+                font-size: 12px;
+            }
+
+            .forecast-chart-days-item-temperature {
+                display: none;
+            }
+        }
+    }
+}

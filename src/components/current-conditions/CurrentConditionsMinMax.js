@@ -22,8 +22,8 @@ const CurrentConditionsMinMax = (props) => {
 CurrentConditionsMinMax.propTypes = {
     minIcon: PropTypes.string,
     maxIcon: PropTypes.string,
-    minValue: PropTypes.number,
-    maxValue: PropTypes.number,
+    minValue: PropTypes.any,
+    maxValue: PropTypes.any,
     unit: PropTypes.string
 };
 

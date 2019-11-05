@@ -1,10 +1,16 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ArcPath from '../../helpers/ArcPath';
+import Loader from '../loader/Loader';
 
 import './WindChart.scss';
 
 class WindChart extends Component {
+    constructor(props) {
+        super(props);
+        this.alreadyMounted = false;
+    }
+
     initialize() {
         this.rad = Math.PI / 180;
         this.minWind = 0;
@@ -15,7 +21,17 @@ class WindChart extends Component {
     }
 
     componentDidMount() {
-        this.animate();
+        if (this.props.currentWind !== undefined && (this.alreadyMounted === false || this.graphWidth !== this.props.widthAndHeight)) {
+            this.alreadyMounted = true;
+            this.animate();
+        }
+    }
+
+    componentDidUpdate() {
+        if (this.props.currentWind !== undefined && (this.alreadyMounted === false || this.graphWidth !== this.props.widthAndHeight)) {
+            this.alreadyMounted = true;
+            this.animate();
+        }
     }
 
     componentWillUnmount() {
@@ -23,6 +39,7 @@ class WindChart extends Component {
     }
 
     animate() {
+        this.graphWidth = this.props.widthAndHeight;
         this.clearRunningTimeout();
         this.initialize();
 
@@ -188,8 +205,7 @@ class WindChart extends Component {
         } else {
             return (
                 <div className="wind-chart">
-                    <svg className="wind-graph-svg" view-box="0 0 330 165"></svg>
-                    <div className="wind-graph-output">--</div>
+                    <Loader />
                 </div>
             );
         }

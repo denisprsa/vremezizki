@@ -1,10 +1,16 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ArcPath from '../../helpers/ArcPath';
+import Loader from '../loader/Loader';
 
 import './TemperatureChart.scss';
 
 class TemperatureChart extends Component {
+    constructor(props) {
+        super(props);
+        this.alreadyMounted = false;
+    }
+
     initialize() {
         this.rad = Math.PI / 180;
         this.minTemperature = 0;
@@ -15,7 +21,17 @@ class TemperatureChart extends Component {
     }
 
     componentDidMount() {
-        this.animate();
+        if (this.props.currentTemperature !== undefined && (this.alreadyMounted === false || this.graphWidth !== this.props.widthAndHeight)) {
+            this.alreadyMounted = true;
+            this.animate();
+        }
+    }
+
+    componentDidUpdate() {
+        if (this.props.currentTemperature !== undefined && (this.alreadyMounted === false || this.graphWidth !== this.props.widthAndHeight)) {
+            this.alreadyMounted = true;
+            this.animate();
+        }
     }
 
     componentWillUnmount() {
@@ -23,6 +39,7 @@ class TemperatureChart extends Component {
     }
 
     animate() {
+        this.graphWidth = this.props.widthAndHeight;
         this.clearRunningTimeout();
         this.initialize();
 
@@ -118,16 +135,17 @@ class TemperatureChart extends Component {
 
     render() {
         if (this.state) {
+
             let scaleLines = this.state.scaleLine.map((val, index) => <line key={`line-${index}`} className="temperature-chart-scale-item" x1={val.x1} x2={val.x2} y1={val.y1} y2={val.y2} />);
             let scaleTexts = this.state.scaleText.map((val, index) => <text key={`text-${index}`} className="temperature-chart-scale-item" x={val.x} y={val.y}>{val.text}</text>);
             let outlineD = this.state.outlineD;
             let fillD = this.state.fillD;
-            // let mainColor = this.props.statusLineColor;
             let fontSize = this.props.fontSize;
-
             let circleGraphWrapperStyle = {
                 width: this.state.widthAndHeight
             };
+
+            let currentValue = this.state.currentValue === undefined ? '--' : this.state.currentValue.toFixed(1);
 
             return (
                 <div className="temperature-chart" style={circleGraphWrapperStyle}>
@@ -140,7 +158,7 @@ class TemperatureChart extends Component {
                         <path className="temperature-chart-fill" d={fillD} transform="translate(20,20)"/>
                     </svg>
                     <div className="temperature-chart-output">
-                        <div className="temperature-chart-value" style={{fontSize: fontSize, lineHeight: `${Number(fontSize+10)}px`}}>{this.state.currentValue.toFixed(1)}</div>
+                        <div className="temperature-chart-value" style={{fontSize: fontSize, lineHeight: `${Number(fontSize+10)}px`}}>{currentValue}</div>
                         <div className="temperature-chart-metric">°C</div>
                     </div>
                 </div>
@@ -148,8 +166,7 @@ class TemperatureChart extends Component {
         } else {
             return (
                 <div className="temperature-chart">
-                    <svg className="temperature-graph-svg" view-box="0 0 330 165"></svg>
-                    <div className="temperature-graph-output">--</div>
+                    <Loader />
                 </div>
             );
         }

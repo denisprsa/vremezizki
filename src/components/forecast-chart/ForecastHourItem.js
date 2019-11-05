@@ -6,18 +6,18 @@ import GetIcon from '../../helpers/ForecastIcon';
 import './ForecastHourItem.scss';
 
 function drawForecastTemperatureGraph(percentage) {
-    let width1 = 150;
-    let width2 = 160;
+    let height1 = 150;
+    let height2 = 160;
 
     if (window.innerWidth < 830) {
-        width1 = 110;
-        width2 = 120;
+        height1 = 110;
+        height2 = 120;
     }
 
-    let startPositionX = width1 * percentage;
+    let startPositionX = height1 * percentage;
 
 
-    let coordinates = `M6,${width2 - startPositionX - 5} `;
+    let coordinates = `M6,${height2 - startPositionX - 5} `;
     coordinates += 'h10 ';
     coordinates += 'a5,5 0 0 1 5,5 ';
     coordinates += `v${startPositionX} `;
@@ -30,7 +30,7 @@ function drawForecastTemperatureGraph(percentage) {
 
 
     return (
-        <svg width={22} height={160}>
+        <svg width={22} height={height2} style={{display: 'block', marginLeft: 'auto', marginRight: 'auto'}}>
             <path d={coordinates} fill="#0747a6" stroke="black" strokeWidth="1" />
         </svg>
     )

@@ -18,6 +18,19 @@
         border: 2px solid #f7f7f7;
         border-radius: 50%;
         margin-left: 5px;
+        position: relative;
+
+        .main-menu-logo-value {
+            position: absolute;
+            top: 12px;
+            left: 5px;
+            font-weight: bold;
+            font-size: 15px;
+            color: #f7f7f7;
+            font-family: "Oswald", sans-serif;
+            width: 30px;
+            text-align: center;
+        }
     }
 
     .center-height {
@@ -40,4 +53,60 @@
             background-color: rgba(255, 255, 255, 0.2);
         }
     }
+}
+
+@media screen and (max-width: 1279px) {
+    .main-menu {
+        min-height: 50px;
+        width: 100%;
+        min-width: 100%;
+        background-color:rgb(7, 71, 166);
+        z-index: 1;
+        box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.4);
+        position: fixed;
+        bottom: 0;
+        right: 0;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        flex-direction: row;
+
+        .center-height {
+            height: 50px;
+        }
+
+        .bottom-height {
+            height: 50px;
+        }
+
+        .main-menu-logo {
+            height: 37px;
+            width: 37px;
+            margin-top: 4px;
+            border: 2px solid #f7f7f7;
+            border-radius: 50%;
+            margin-left: 4px;
+
+            .main-menu-logo-value {
+                position: absolute;
+                top: 5px;
+                left: 0px;
+                font-weight: bold;
+                font-size: 11px;
+                color: #f7f7f7;
+                font-family: "Oswald", sans-serif;
+                width: 30px;
+                text-align: center;
+            }
+        }
+
+        .is-active {
+            .main-menu-item {
+                width: 50px;
+                height: 47px;
+                border-left: 0px;
+                border-bottom: 3px solid white;
+            }
+        }
+    }    
 }

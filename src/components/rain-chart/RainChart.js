@@ -1,10 +1,16 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ArcPath from '../../helpers/ArcPath';
+import Loader from '../loader/Loader';
 
 import './RainChart.scss';
 
 class RainChart extends Component {
+    constructor(props) {
+        super(props);
+        this.alreadyMounted = false;
+    }
+
     initialize() {
         this.rad = Math.PI / 180;
         this.time = undefined;
@@ -12,13 +18,24 @@ class RainChart extends Component {
     }
 
     componentDidMount() {
-        this.animate();
+        if (this.props.currentRain !== undefined && (this.alreadyMounted === false || this.graphWidth !== this.props.widthAndHeight)) {
+            this.alreadyMounted = true;
+            this.animate();
+        }
+    }
+
+    componentDidUpdate() {
+        if (this.props.currentRain !== undefined && (this.alreadyMounted === false || this.graphWidth !== this.props.widthAndHeight)) {
+            this.alreadyMounted = true;
+            this.animate();
+        }
     }
 
     componentWillUnmount() {
     }
 
     animate() {
+        this.graphWidth = this.props.widthAndHeight;
         this.initialize();
 
         let cx = Math.floor(this.props.widthAndHeight / 2);
@@ -62,15 +79,6 @@ class RainChart extends Component {
                     <div className="rain-chart-rain-animation">
                         <div className="rain-chart-rain-animation-wrapper">
                             <svg className="rain-chart-animation-svg" height={this.state.widthAndHeight} width={this.state.widthAndHeight} view-box="0 0 330 165">
-                                
-                                <defs>
-                                    <clipPath id="rain-chart-drop">
-                                        <path transform="scale(0.75), translate(32,0)" d="M68.2,6.7c0,0-62.4,70.9-62.4,124.7c0,32.3,28,58.4,62.4,58.4s62.4-26.2,62.4-58.4
-                                            C130.7,77.6,68.3,6.7,68.2,6.7z M61,77.5c0.8,0,1.5,0.7,1.5,1.5v20.6c2.7-3.6,7.6-5.7,13.1-5.7c12.2,0,19.4,6.9,19.4,18.7v37.2
-                                            c0,0.8-0.7,1.5-1.5,1.5H75.6c-0.8,0-1.5-0.7-1.4-1.5v-32c0-4.1-1.8-6.4-5-6.4c-5.8,0-6.7,5.7-6.7,5.7v32.7c0,0.8-0.7,1.5-1.5,1.5
-                                            H43.1c-0.8,0-1.5-0.7-1.5-1.5V79c0-0.8,0.7-1.5,1.5-1.5H61z" />
-                                    </clipPath>
-                                </defs>
 
                                 <g>
                                     {rainAnimation}
@@ -92,8 +100,7 @@ class RainChart extends Component {
         } else {
             return (
                 <div className="rain-chart">
-                    <svg className="rain-graph-svg" view-box="0 0 330 165"></svg>
-                    <div className="rain-graph-output">--</div>
+                    <Loader />
                 </div>
             );
         }

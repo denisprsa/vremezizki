@@ -2,6 +2,10 @@
 .rain-chart {
     text-align: center;
     position: relative;
+
+    .loader {
+        height: 170px;;
+    }
     
     .rain-chart-svg {
         position: relative;
@@ -103,3 +107,30 @@
         transform: translate(0, 0);
     }
 }
+
+
+@media screen and (max-width: 1279px) {
+    .rain-chart {
+        .loader {
+            height: 150px;
+        }
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .rain-chart {
+        .rain-chart-rain-animation {
+            z-index: 1;
+            position: absolute;
+            top: calc(50% - 40px);
+            left: calc(50% - 40px);
+    
+            .rain-chart-rain-animation-wrapper {
+                border-radius: 50%;
+                width: 80px;
+                height: 80px;
+            }
+        }
+    }
+}
+

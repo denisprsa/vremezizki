@@ -4,6 +4,7 @@ import WidgetText from '../widgets/Text';
 import WidgetTitle from '../widgets/Title';
 
 import './ForecastWords.scss';
+import Space from '../widgets/Space';
 
 class ForecastWords extends React.Component {
     componentDidMount() {
@@ -47,6 +48,11 @@ class ForecastWords extends React.Component {
         return (
             <div className="forecast-words">
                 {forecast}
+
+                <Space height={15} />
+                <div>
+                    Vir: ARSO
+                </div>
             </div>
         );
     }

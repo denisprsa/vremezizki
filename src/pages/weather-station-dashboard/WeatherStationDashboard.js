@@ -24,6 +24,12 @@ import WeatherDataChart from '../../components/weather-data-chart.js/WeatherData
 import { GetWeatherDataChartData } from '../../api/GetWeatherDataChartData';
 
 import './WeatherStationDashboard.scss';
+import { GetWeatherStationDashboardData } from '../../helpers/CurrentWeatherData';
+
+import ReactGA from 'react-ga';
+import WidgetText from '../../components/widgets/Text';
+ReactGA.initialize('UA-47747443-1');
+ReactGA.pageview(window.location.pathname + window.location.search);
 
 class WeatherStationDashboard extends React.Component {
     constructor(props) {
@@ -40,7 +46,8 @@ class WeatherStationDashboard extends React.Component {
                     forecastNeighborCountry: data.forecastNeighborCountry,
                     weatherImage: data.weatherImage,
                     warning: data.warning,
-                    outlook: data.outlook
+                    outlook: data.outlook,
+                    forecastDate: data.forecastDate
                 });
             })
             .catch(err => {
@@ -73,28 +80,43 @@ class WeatherStationDashboard extends React.Component {
             type: 'slider',
             gap: 10,
             bound: true,
+            peek: { before: 0, after: 0 },
+            dots: true,
+            rewind: false,
             hoverpause: true,
             breakpoints: {
-                530: {
+                350: {
                     startAt: 0,
+                    peek: { before: 0, after: 100 },
+                    perView: 1,
+                },
+                400: {
+                    startAt: 0,
+                    peek: { before: 0, after: 180 },
+                    perView: 1,
+                },
+                600: {
+                    startAt: 0,
+                    peek: { before: 0, after: 50 },
                     perView: 2,
                 },
-                720: {
+                850: {
                     startAt: 0,
                     perView: 3,
                 },
-                1000: {
+                1050: {
                     startAt: 0,
                     perView: 4,
                 },
                 1400: {
                     startAt: 0,
                     perView: 5,
+                    peek: { before: 0, after: 50 }
                 }
             },
         };
 
-        let forecastTextData = { loading: true };
+        let forecastTextData = { loading: true, forecastDate: '--' };
         let warningItem;
 
         if (this.state && this.state.forecastText) {
@@ -103,11 +125,12 @@ class WeatherStationDashboard extends React.Component {
                 forecastText:  this.state.forecastText,
                 forecastNeighborCountry: this.state.forecastNeighborCountry,
                 weatherImage: this.state.weatherImage,
-                outlook: this.state.outlook
+                outlook: this.state.outlook,
+                forecastDate: this.state.forecastDate
             }
         }
 
-        if (this.state && this.state.warning.length > 0) {
+        if (this.state && this.state.warning && this.state.warning.length > 0) {
             warningItem = <Row>
                 <Columns className="col-12 center">
                     <Warning warningText={this.state.warning.map((val) => val).join(' ')} warningTitle="Opozorilo"/>
@@ -115,48 +138,20 @@ class WeatherStationDashboard extends React.Component {
             </Row>;
         }
 
-        let data = {
-            temperature: [],
-            dewPoint: [],
-            humidity: [],
-            windSpeed: [],
-            windGust: [],
-            windDirection: [],
-            pressure: [],
-            rain: [],
-            date: []
-        };
-        let weatherDataChart;
+        let currentData = {};
+        let chartData = {};
+        let isOnline = false;
 
         if (this.state && this.state.weatherDataChart) {
-            let lastDate;
+            let data = GetWeatherStationDashboardData(this.state.weatherDataChart, true);
+            currentData = data.currentData;
+            chartData = data.graphData;
 
-            for (let item of this.state.weatherDataChart) {
-                data.temperature.push(item.tmp);
-                data.dewPoint.push(item.ros);
-                data.humidity.push(item.vla);
-                data.windDirection.push(item.vetersm);
-                data.windGust.push(item.vetersu);
-                data.windSpeed.push(item.veter);
-                data.pressure.push(item.tlak);
-                data.rain.push(item.pad);
-                data.date.push(new Date(item.dat.replace(' ', 'T')));
-                lastDate = new Date(item.dat.replace(' ', 'T'));
-            }
+            isOnline = currentData.dateTime < 300;
 
-            lastDate.setMinutes(lastDate.getMinutes() + 1);
-    
-            data.date.push(lastDate);
-
-            let endDayDate = new Date();
-            endDayDate.setHours(23);
-            endDayDate.setMinutes(59);
-            endDayDate.setSeconds(59);
-    
-            data.date.push(endDayDate);
+            currentData.maxCelsius = Math.max(currentData.maxTemp, currentData.maxDewPoint) + 2;
+            currentData.minCelsius = Math.min(currentData.minTemp, currentData.minDewPoint) - 2;
         }
-
-        
 
         return (
             <div className="weather-station-dashboard">
@@ -168,24 +163,32 @@ class WeatherStationDashboard extends React.Component {
                 <Space height={20}/>
 
                 <div className="glide-slider-current-conditions">
-                    <GlideSlider options={glideSliderCurrentConditionConfig} showNavigation={false}>
+
+                    <div className="current-conditions-data-age">
+                        <div>
+                            Starost podatkov: {currentData.dateTimeString ? currentData.dateTimeString : '--'} 
+                            <div className={`current-conditions-data-age-indication ${isOnline ? 'current-conditions-data-age-indication-online' : ''}`}></div>
+                        </div>
+                    </div>
+
+                    <GlideSlider options={glideSliderCurrentConditionConfig} showNavigation={true}>
                         <div className="first-slider">
-                            <TemperatureCurrentStatus currentTemperature={25.1} minTemperature={14.4} maxTemperature={31.3}/>
+                            <TemperatureCurrentStatus currentTemperature={currentData.currentTemp} minTemperature={currentData.minTemp} maxTemperature={currentData.maxTemp} minTemperatureGraph={currentData.minCelsius} maxTemperatureGraph={currentData.maxCelsius}/>
                         </div>
                         <div>
-                            <DewPointCurrentStatus currentDewPoint={20.1} minDewPoint={5.1} maxDewPoint={24.1}/>
+                            <DewPointCurrentStatus currentDewPoint={currentData.currentDewPoint} minDewPoint={currentData.minDewPoint} maxDewPoint={currentData.maxDewPoint} minDewPointGraph={currentData.minCelsius} maxDewPointGraph={currentData.maxCelsius}/>
                         </div>
                         <div>
-                            <HumidityCurrentStatus currentHumidity={78.1} minHumidity={40.1} maxHumidity={99.1}/>
+                            <HumidityCurrentStatus currentHumidity={currentData.currentHumidity} minHumidity={currentData.minHumidity} maxHumidity={currentData.maxHumidity}/>
                         </div>
                         <div>
-                            <WindCurrentStatus currentWind={14.3} minWind={0} maxWind={32.1} minWindGust={25.4} maxWindGust={69.4} windDirection={168}/>
+                            <WindCurrentStatus currentWind={currentData.currentWindSpeed} minWind={0} maxWind={currentData.maxWindSpeed} minWindGust={0} maxWindGust={currentData.maxWindWindGust} windDirection={currentData.currentWindDirection}/>
                         </div>
                         <div>
-                            <RainCurrentStatus currentRain={5.2} maxRainRate={88.9} />
+                            <RainCurrentStatus currentRain={currentData.dayRain} maxRainRate={0.0} />
                         </div>
                         <div>
-                            <PressureCurrentStatus currentPressure={1016.3} minPressure={1009.3} maxPressure={1021.3}/>
+                            <PressureCurrentStatus currentPressure={currentData.currentPressure} minPressure={currentData.minPressure} maxPressure={currentData.maxPressure}/>
                         </div>
                     </GlideSlider>
                 </div>
@@ -195,11 +198,12 @@ class WeatherStationDashboard extends React.Component {
                 <Row>
                     <Columns className="col-12">
                         <Widget className="current-weather-graphic-align clear">
-                            <Columns className="col-4 center">
+                            <Columns className="col-4 col-sm-12 center col-sm-bottom">
                                 <WidgetTitle title="Trenutno stanje" />
+                                <WidgetText style={{textAlign: 'center'}}  text={forecastTextData.forecastDate}></WidgetText>
                                 <CurrentWeatherGraphic weatherType="partlyCloudy" />
                             </Columns>
-                            <Columns className="col-8">
+                            <Columns className="col-8 col-sm-12">
                                 <ForecastWords data={forecastTextData}/>
                             </Columns>
                         </Widget>
@@ -234,12 +238,16 @@ class WeatherStationDashboard extends React.Component {
                     <Columns className="col-12">
                         <Widget className="no-left-right-padding">
                             <WidgetTitle title="Meritve" />
-                            <WeatherDataChart data={data}></WeatherDataChart>
+                            <WeatherDataChart data={chartData}></WeatherDataChart>
                         </Widget>
                     </Columns>
                 </Row>
 
                 <Footer />
+
+                <div className="space-for-small-devices">
+                    <Space height={50} />
+                </div>
             </div>
         );
     }

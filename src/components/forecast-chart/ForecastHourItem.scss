@@ -5,14 +5,7 @@
     border-right: 1px solid #ececec;
     border-left: 1px solid #ececec;
     position: relative;
-
     text-align: center;
-
-    &:hover {
-        background-color: rgba(1,144,235,.3);
-        border-right: 1px solid rgba(1,144,235,.3);
-        cursor: pointer;
-    }
 
     .forecast-chart-hour-item-time {
         font-weight: bold;
@@ -99,4 +92,15 @@
 
 .forecast-chart-hour-item.forecast-chart-hour-active {
     opacity: 1;
+}
+
+@media screen and (max-width: 829px) {
+    .forecast-chart-hour-item {
+        height: 413px;
+        .forecast-chart-hour-item-graph {
+            .forecast-chart-hour-item-graph-line-4 {
+                display: none;
+            }
+        }
+    }
 }

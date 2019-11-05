@@ -19,7 +19,7 @@ class ScatterPlot extends React.Component {
 
         if ((!d0 || !d1) && this.props.plotData.length > 1) {
             return this.props.plotData[this.props.plotData.length - 2]
-        } else if ((!d0 || !d1) && this.props.plotData.length == 0) {
+        } else if ((!d0 || !d1) && this.props.plotData.length === 0) {
             return;
         }
 

@@ -1,6 +1,10 @@
 .wind-chart {
     text-align: center;
     position: relative;
+
+    .loader {
+        height: 170px;;
+    }
     
     .wind-chart-svg {
         display: inline-block;
@@ -53,6 +57,14 @@
             font-size: 10px;
             right: 0;
             line-height: 10px;
+        }
+    }
+}
+
+@media screen and (max-width: 1279px) {
+    .wind-chart {
+        .loader {
+            height: 150px;
         }
     }
 }

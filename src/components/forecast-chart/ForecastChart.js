@@ -2,10 +2,11 @@ import React from 'react';
 import GlideSlider from '../glide-slider/GlideSlider';
 import ForecastHourItem from './ForecastHourItem';
 import ForecastDaysItem from './ForecastDaysItem';
+import GetWeatherForecastChart from '../../api/WeathherForecastChart';
+import Loader from '../loader/Loader';
 import Space from '../widgets/Space';
 
 import './ForecastChart.scss';
-import GetWeatherForecastChart from '../../api/WeathherForecastChart';
 
 class ForecastChart extends React.Component {
     constructor(props) {
@@ -43,13 +44,7 @@ class ForecastChart extends React.Component {
 
     dayClick(index) {
         if (this.gliderDaysRef && this.gliderDaysRef.current) {
-            let goToIndex = index - 2;
-
-            if (goToIndex < 0) {
-                goToIndex = 0;
-            } else if (index > this.state.forecastData.days.length - 3) {
-                goToIndex = this.state.forecastData.days.length - 5;
-            }
+            let goToIndex = this.getDayClickIndex(index);
 
             this.gliderDaysRef.current.go(`=${goToIndex}`);
             this.setState({ activeDay: index });
@@ -67,10 +62,34 @@ class ForecastChart extends React.Component {
         }
     }
 
+    getDayClickIndex(index) {
+        let goToIndex = index - 2;
+
+        if (window.innerWidth < 850) {
+            goToIndex = index;
+
+            if (goToIndex < 0) {
+                goToIndex = 0;
+            } else if (index > this.state.forecastData.days.length - 2) {
+                goToIndex = this.state.forecastData.days.length - 2;
+            }
+
+            return goToIndex;
+        }
+
+        if (goToIndex < 0) {
+            goToIndex = 0;
+        } else if (index > this.state.forecastData.days.length - 3) {
+            goToIndex = this.state.forecastData.days.length - 5;
+        }
+
+        return goToIndex;
+    }
+
     render() {
         let glideSliderHoursConfig = {
             startAt: 0,
-            perView: 1,
+            perView: 12,
             type: 'slider',
             rewind: false,
             gap: 0,
@@ -79,26 +98,26 @@ class ForecastChart extends React.Component {
             breakpoints: {
                 530: {
                     startAt: 0,
-                    perView: 2,
+                    perView: 5,
                 },
-                720: {
+                850: {
                     startAt: 0,
-                    perView: 3,
+                    perView: 6,
                 },
                 1000: {
                     startAt: 0,
-                    perView: 4,
+                    perView: 8,
                 },
-                1400: {
+                1279: {
                     startAt: 0,
-                    perView: 5,
+                    perView: 10,
                 }
             },
         };
 
         let glideSliderDaysConfig = {
             startAt: 0,
-            perView: 1,
+            perView: 5,
             type: 'slider',
             rewind: false,
             gap: 0,
@@ -109,45 +128,45 @@ class ForecastChart extends React.Component {
                     startAt: 0,
                     perView: 2,
                 },
-                720: {
+                870: {
                     startAt: 0,
                     perView: 3,
                 },
-                1000: {
+                1050: {
                     startAt: 0,
                     perView: 4,
-                },
-                1400: {
-                    startAt: 0,
-                    perView: 5,
                 }
             },
         };
 
-        let forecastHours = <div className="forecast-chart-hour-item"> Nalagam ... </div>;
-        let forecastDays = <div> Nalagam ... </div>;
-
         if (this.state.forecastData) {
             glideSliderDaysConfig.perView = 5;
-            forecastDays = this.state.forecastData.days.map((value, index) => <ForecastDaysItem clickDayItem={this.dayClick.bind(this)} key={`forecast-days-item-${index}`} data={{value, index}} isActive={index === this.state.activeDay} />);
+            let forecastDays = this.state.forecastData.days.map((value, index) => <ForecastDaysItem clickDayItem={this.dayClick.bind(this)} key={`forecast-days-item-${index}`} data={{value, index}} isActive={index === this.state.activeDay} />);
             
             glideSliderHoursConfig.perView = 12;
-            forecastHours = this.state.forecastData.hours.map((value, index) => <ForecastHourItem key={`forecast-hour-item-${index}`} data={{value, index}} isActive={value.day === this.state.activeDay} />);
+            let forecastHours = this.state.forecastData.hours.map((value, index) => <ForecastHourItem key={`forecast-hour-item-${index}`} data={{value, index}} isActive={value.day === this.state.activeDay} />);
+
+            return (
+                <div className="forecast-chart">
+                    <div className="forecast-chart-days-wrapper">
+                        <GlideSlider options={glideSliderDaysConfig} showNavigation={true} ref={this.gliderDaysRef}>
+                            { forecastDays }
+                        </GlideSlider>
+                    </div>
+
+                    <Space height={20}/>
+
+                    <GlideSlider options={glideSliderHoursConfig} showNavigation={true} ref={this.gliderHoursRef}>
+                        { forecastHours }
+                    </GlideSlider>
+                </div>
+            );
         }
+
 
         return (
             <div className="forecast-chart">
-                <div className="forecast-chart-days-wrapper">
-                    <GlideSlider options={glideSliderDaysConfig} showNavigation={true} ref={this.gliderDaysRef}>
-                        { forecastDays }
-                    </GlideSlider>
-                </div>
-
-                <Space height={20}/>
-
-                <GlideSlider options={glideSliderHoursConfig} showNavigation={false} ref={this.gliderHoursRef}>
-                    { forecastHours }
-                </GlideSlider>
+                <Loader />
             </div>
         );
     }

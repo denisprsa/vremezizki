@@ -4,6 +4,7 @@ function transformData(data) {
     let weatherImage = [];
     let outlook = [];
     let warning = [];
+    let forecastDate = data.fcast_si_text.articleinfo.pubdate;
 
     for (let item of data.fcast_si_text.section) {    
         if (item.title === 'NAPOVED ZA SLOVENIJO' && item.para) {
@@ -32,12 +33,13 @@ function transformData(data) {
         forecastNeighborCountry: forecastNeighborCountry,
         weatherImage: weatherImage,
         outlook: outlook,
-        warning: warning
+        warning: warning,
+        forecastDate: forecastDate
     }; 
 }
 
 export default function GetWeatherForecastText(signal) {
-    let link = 'http://vreme.arso.gov.si/api/1.0/nonlocation/?lang=sl';
+    let link = 'https://vreme.arso.gov.si/api/1.0/nonlocation/?lang=sl';
 
     return fetch(link, { mode: 'cors', signal })
         .then((value) => {

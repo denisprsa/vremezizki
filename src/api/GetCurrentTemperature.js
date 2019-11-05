@@ -1,10 +1,6 @@
 
-export function GetWeatherDataChartData(date) {
-    let link = 'https://vremezizki.si/sqlZahteve/current-weather.php';
-
-    if (date) {
-        link += `?date=${date.toISOString()}`
-    }
+export function GetCurrentTemperature() {
+    let link = 'https://vremezizki.si/sqlZahteve/current-temperature.php';
 
     return fetch(link, { mode: 'cors' })
         .then((value) => {

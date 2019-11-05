@@ -5,12 +5,13 @@ import './Widget.scss';
 
 const WidgetText = (props) => {
     return (
-        <div className="widget-text">{ props.text }</div>
+        <div className="widget-text" style={props.style}>{ props.text }</div>
     );
 }
 
 WidgetText.propTypes = {
-    text: PropTypes.string
+    text: PropTypes.string,
+    style: PropTypes.any
 };
 
 export default WidgetText;

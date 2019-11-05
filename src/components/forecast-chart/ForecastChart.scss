@@ -1,6 +1,10 @@
 .forecast-chart {
     //
 
+    .glide__arrows {
+        margin-top: 10px;
+    }
+
     .forecast-chart-days-wrapper {
         width: calc(100% - 100px);
         margin-left: auto;
@@ -8,6 +12,8 @@
         position: relative;
 
         .glide__arrows {
+            margin-top: 0px;
+
             .glide__arrow {
                 position: absolute;
                 top: calc(50% - 8px);
@@ -20,6 +26,15 @@
             .glide__arrow--right {
                 left: calc(100% + 10px);
             }
+        }
+    }
+}
+
+
+@media screen and (max-width: 850px) {
+    .forecast-chart {
+        .forecast-chart-days-wrapper {
+            width: calc(100% - 50px);
         }
     }
 }

@@ -1,5 +1,60 @@
 .weather-station-footer {
-    margin-top: 20px;
-    height: 150px;
-    border-top: 1px solid black;
+    margin-top: 40px;
+    background-color: #36383d;
+    color: white;
+    font-size: 15px;
+    box-shadow: 0 -3px 6px 0 rgba(0, 0, 0, 0.4);
+
+    .footer-upper-wrapper {
+        .footer-logo {
+            font-size: 17px;
+            margin-bottom: 50px;
+            font-weight: bold;
+            display: flex;
+            line-height: 50px;;
+
+            > div:nth-of-type(1) {
+                margin-right: 10px;
+            }
+
+            svg {
+                height: 50px;
+                width: 50px;
+            }
+        }
+    }
+
+    .footer-separator {
+        height: 1px;
+        background-color: #47494d;
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+
+    .footer-lower-wrapper {
+        display: flex;
+        justify-content: space-between;
+
+        .footer-lower-left-wrapper {
+
+        }
+
+        .footer-lower-right-wrapper {
+
+        }
+    }
+}
+
+@media screen and (max-width: 850px) {
+    .weather-station-footer {
+        font-size: 13px;
+
+        .footer-lower-wrapper {
+            display: block;
+
+            .footer-lower-left-wrapper {
+                margin-bottom: 10px;
+            }
+        }
+    }
 }

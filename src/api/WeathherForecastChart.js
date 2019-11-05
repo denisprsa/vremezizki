@@ -1,7 +1,7 @@
 import { TransformArsoData } from '../helpers/TransformArsoData';
 
 export default function GetWeatherForecastChart(signal) {
-    let link = 'http://vreme.arso.gov.si/api/1.0/location/?lang=sl&location=Lendava';
+    let link = 'https://vreme.arso.gov.si/api/1.0/location/?lang=sl&location=Lendava';
 
     return fetch(link, { mode: 'cors' })
         .then((value) => {

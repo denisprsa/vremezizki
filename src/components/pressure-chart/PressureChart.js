@@ -3,8 +3,14 @@ import PropTypes from 'prop-types';
 import ArcPath from '../../helpers/ArcPath';
 
 import './PressureChart.scss';
+import Loader from '../loader/Loader';
 
 class PressureChart extends Component {
+    constructor(props) {
+        super(props);
+        this.alreadyMounted = false;
+    }
+
     initialize() {
         this.rad = Math.PI / 180;
         this.minTemperature = 0;
@@ -15,7 +21,17 @@ class PressureChart extends Component {
     }
 
     componentDidMount() {
-        this.animate();
+        if (this.props.currentPressure !== undefined && (this.alreadyMounted === false || this.graphWidth !== this.props.widthAndHeight)) {
+            this.alreadyMounted = true;
+            this.animate();
+        }
+    }
+    
+    componentDidUpdate() {
+        if (this.props.currentPressure !== undefined && (this.alreadyMounted === false || this.graphWidth !== this.props.widthAndHeight)) {
+            this.alreadyMounted = true;
+            this.animate();
+        }
     }
 
     componentWillUnmount() {
@@ -23,6 +39,7 @@ class PressureChart extends Component {
     }
 
     animate() {
+        this.graphWidth = this.props.widthAndHeight;
         this.clearRunningTimeout();
         this.initialize();
 
@@ -192,8 +209,7 @@ class PressureChart extends Component {
         } else {
             return (
                 <div className="pressure-chart">
-                    <svg className="pressure-graph-svg" view-box="0 0 330 165"></svg>
-                    <div className="pressure-graph-output">--</div>
+                    <Loader />
                 </div>
             );
         }

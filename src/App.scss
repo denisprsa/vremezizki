@@ -13,3 +13,16 @@
         height: auto;
     }
 }
+
+@media screen and (max-width: 1279px) {
+    .main-web-page-wrapper {
+        flex-direction: column;
+    
+        .main-content-wrapper {
+            background-color: #f7f7f7;
+            flex: 1;
+            margin-left: 0px;
+            width: calc(100% - 0px);
+        }
+    }
+}

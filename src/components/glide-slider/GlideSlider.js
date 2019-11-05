@@ -12,7 +12,7 @@ import './GlideSlider.scss';
 class GlideSlider extends Component {
     constructor(props) {
         super(props);
-        this.state = { id: undefined };
+        this.state = { id: undefined, disableTouchAction: false };
         this.updated = 0;
     }
 
@@ -22,10 +22,6 @@ class GlideSlider extends Component {
     }
 
     componentDidUpdate() {
-        if (this.updated < 3) {
-            this.updateGlider();
-            this.updated++;
-        }
     }
 
     updateGlider() {
@@ -37,11 +33,22 @@ class GlideSlider extends Component {
 
         this.slider = new Glide(`#${this.state.id}`, options);
         this.slider.mount({ Breakpoints });
+        // this.setEvents();
     }
 
     initializeGlider() {
         this.slider = new Glide(`#${this.state.id}`, this.props.options);
         this.slider.mount({ Breakpoints });
+        // this.setEvents();
+    }
+
+    setEvents() {
+        this.slider.on('swipe.start', () => {
+            this.setState({ disableTouchAction: true });
+        });
+        this.slider.on('swipe.end', () => {
+            this.setState({ disableTouchAction: false });
+        });
     }
 
     setIndex(index) {
@@ -86,7 +93,13 @@ class GlideSlider extends Component {
                 });
             }
 
-            return <div id={this.state.id} style={{ overflowX: 'hidden', userSelect: 'none', maxWidth: '100vw' }}>
+            let styles = { overflowX: 'hidden', userSelect: 'none', maxWidth: '100vw' };
+
+            if (this.state.disableTouchAction) {
+                styles.touchAction = 'none';
+            }
+
+            return <div id={this.state.id} style={styles}>
                 <div className="glide__track" data-glide-el="track">
                     <div className="glide__slides" style={{ display: 'flex' }}>
                         { slides }

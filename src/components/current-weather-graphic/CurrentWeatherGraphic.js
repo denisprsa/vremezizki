@@ -258,14 +258,16 @@ class CurrentWeatherGraphic extends React.Component {
             let width = this.state.width;
 
             return (
-                <svg width={width} height={height}>
-                    {this.state && this.state.frame}
-                    {this.state && this.state.clouds}
-                </svg>
+                <div className="current-status-graphic-presentation">
+                    <svg width={width} height={height}>
+                        {this.state && this.state.frame}
+                        {this.state && this.state.clouds}
+                    </svg>
+                </div>
             );
         } else {
             return (
-                <div>
+                <div className="current-status-graphic-presentation">
                     Loading...
                 </div>
             );
