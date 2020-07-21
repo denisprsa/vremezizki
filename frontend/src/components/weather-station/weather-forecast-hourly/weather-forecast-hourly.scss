@@ -1,0 +1,20 @@
+.forecast-hourly-wrapper {
+
+    ul {
+        li:first-child {
+            margin-left: 5px;
+        }
+    }
+
+    .weather-forecast-hourly-item {
+        height: 380px;
+        width: 100px;
+        margin: 15px 0px 15px 0px;
+        border-radius: 5px;
+        box-shadow: 0 3px 3px 0 rgba(0,0,0,.2);
+    }
+
+    .weather-forecast-hourly-item.separator {
+        border-right: 1px solid black;
+    }
+}
