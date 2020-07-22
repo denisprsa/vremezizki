@@ -1,7 +1,7 @@
 import { WeatherStationData } from '../features/weather-station/interfaces';
 import { fetchRequest } from './request-api';
 
-export const getWeatherData = async (weatherData: {id: string}): Promise<WeatherStationData[]> => {
+export const getWeatherData = async (): Promise<WeatherStationData[]> => {
     const dateFrom = new Date();
     const dateTo = new Date();
     dateFrom.setHours(0);

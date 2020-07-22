@@ -1,8 +1,5 @@
 import React, { FunctionComponent } from 'react'
 
-import { Content } from '../../layouts/content';
-
-
 type Props = {
     
 };
@@ -10,9 +7,6 @@ type Props = {
 const Settings: FunctionComponent<Props> = () => {
     return (
         <>
-            <Content>
-                
-            </Content>
         </>
     );
 }

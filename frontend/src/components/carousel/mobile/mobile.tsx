@@ -3,12 +3,10 @@ import Box from '@material-ui/core/Box';
 
 import './mobile.scss';
 
-
-
-interface Props {
+type Props = {
     childMarginLeft: number;
     positionCenter?: boolean;
-}
+};
 
 const MobileCarousel: FunctionComponent<Props> = (props: Props & { children?: ReactNode }) => {
     const scrollRef = createRef<HTMLUListElement>();

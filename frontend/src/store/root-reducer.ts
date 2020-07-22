@@ -5,7 +5,8 @@ import { History } from 'history';
 import { weatherStation } from '../features/weather-station/reducers';
 import { theme } from '../features/theme/reducers'; 
 
-export const rootReducer = (history: History<any>) => combineReducers({
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+export const rootReducer = (history: History<History.PoorMansUnknown>) => combineReducers({
     router: connectRouter(history),
     weatherStation,
     theme

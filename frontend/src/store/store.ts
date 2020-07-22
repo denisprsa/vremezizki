@@ -24,6 +24,7 @@ const middleware = [
 ];
 
 // Enhancers
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const composeEnhancers = (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const initialState = {};

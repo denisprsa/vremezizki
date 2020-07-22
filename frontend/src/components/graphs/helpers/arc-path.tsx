@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react';
 
-interface Props {
+type Props = {
     className: string;
     value: number;
     maxValue: number;
@@ -13,7 +13,7 @@ interface Props {
     convexEdge: ConvexEdge;
     onClick: (event: React.MouseEvent<SVGPathElement, MouseEvent>) => void;
     onMouseEnter: (event: React.MouseEvent<SVGPathElement, MouseEvent>) => void;
-}
+};
 
 type ConvexEdge = 'both' | 'start' | 'end';
 
@@ -49,7 +49,14 @@ const ArcPath: FunctionComponent<Props> = (props: Props) => {
 
 export const MemoizedArcPath = React.memo(ArcPath);
 
-export function coordinates(halfWidth: number, radius: number, startAngle: number, endAngle: number) {
+export interface ArcPathCoordinates {
+    x1: number;
+    y1: number;
+    x2: number;
+    y2: number;
+}
+
+export function coordinates(halfWidth: number, radius: number, startAngle: number, endAngle: number): ArcPathCoordinates {
     const startAngleDegrees = (Math.PI * startAngle) / 180;
     const x1 = halfWidth + ((halfWidth * radius) * Math.cos(startAngleDegrees));
     const y1 = halfWidth + ((halfWidth * radius) * Math.sin(startAngleDegrees));
@@ -60,13 +67,13 @@ export function coordinates(halfWidth: number, radius: number, startAngle: numbe
     return {x1, y1, x2, y2};
 }
 
-export function arc(width: number, radius: number, largeArcFlag: string, x: number, y: number) {
+export function arc(width: number, radius: number, largeArcFlag: string, x: number, y: number): string {
     const z = (width / 2) * radius;
 
     return `A${z}, ${z} 0 ${largeArcFlag} ${x}, ${y}`;
 }
 
-export function path(activeAngle: number, startAngle: number, width: number, innerRadius: number, outerRadius: number, convexEdge: ConvexEdge) {
+export function path(activeAngle: number, startAngle: number, width: number, innerRadius: number, outerRadius: number, convexEdge: ConvexEdge): string {
     const endAngle = startAngle + activeAngle;
     const largeArcFlagOuter = activeAngle > 180 ? '1 1' : '0 1';
     const largeArcFlagInner = activeAngle > 180 ? '1 0' : '0 0';

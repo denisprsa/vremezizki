@@ -1,7 +1,7 @@
-import { createMuiTheme } from '@material-ui/core';
+import { createMuiTheme, Theme } from '@material-ui/core';
 import { blue, grey } from '@material-ui/core/colors';
 
-export function getTheme(isDark: boolean) {
+export function getTheme(isDark: boolean): Theme {
     if (isDark) {
         return createMuiTheme({
             typography: {

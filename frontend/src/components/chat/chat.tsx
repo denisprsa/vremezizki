@@ -1,11 +1,14 @@
-import React, { Component } from 'react'
+import React, { FunctionComponent } from 'react';
 
-export default class Chat extends Component {
-    render() {
-        return (
-            <div>
-                Chat
-            </div>
-        )
-    }
-}
+type Props = {
+
+};
+
+const ArcPath: FunctionComponent<Props> = () => {
+    return (
+        <>
+        </>
+    );
+};
+
+export default ArcPath;

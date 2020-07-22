@@ -3,10 +3,10 @@ import Box from '@material-ui/core/Box';
 
 import './desktop.scss';
 
-interface Props {
+type Props = {
     positionCenter?: boolean;
     children?: ReactNode;
-}
+};
 
 const DesktopCarousel: FunctionComponent<Props> = (props: Props) => {
     const startDraggingPosition = useRef(0);
@@ -84,6 +84,8 @@ function setSliderPosition(
     isDragging: React.MutableRefObject<boolean>,
     center: boolean
 ) {
+    console.log('is center ', center);
+
     if (sliderRef.current && parentSliderRef.current) {
         const sliderViewWidth = parentSliderRef.current.clientWidth;
         const itemsWidth = sliderRef.current.clientWidth;
@@ -144,7 +146,7 @@ function useHandleMouseUp(
     positionX: number,
     isDragging: React.MutableRefObject<boolean>
 ) {
-    return (e: React.MouseEvent<HTMLUListElement, MouseEvent>) => {
+    return () => {
         if (!sliderRef.current) {
             return;
         }
@@ -165,7 +167,7 @@ function useHandleTouchDown(startDraggingPosition: React.MutableRefObject<number
 }
 
 function useHandleTouchUp(startDraggingPosition: React.MutableRefObject<number>) {
-    return (e: React.TouchEvent<HTMLUListElement>) => {
+    return () => {
         startDraggingPosition.current = 0;
     };
 }
