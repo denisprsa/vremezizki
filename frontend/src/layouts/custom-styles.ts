@@ -6,7 +6,11 @@ export const useContainerStyles = makeStyles((theme: Theme) => ({
         backgroundColor: theme.palette.background.paper,
         boxShadow: '0 3px 6px 0 rgba(0,0,0,.2)',
         borderRadius: 5,
-        padding: '0 10px'
+        paddingLeft: '10px',
+        paddingRight: '10px',
+    },
+    currentConditionsBorder: {
+        border: `1px solid ${theme.borders.containers}`
     }
 }));
 
@@ -33,6 +37,10 @@ export const useProperBackground = makeStyles((theme: Theme) => ({
     strokeFillTextPrimary: {
         stroke: theme.palette.text.primary,
         fill: theme.palette.text.primary
+    },
+    gaugeCircle: {
+        stroke: theme.palette.primary.main,
+        fill: theme.palette.background.paper
     }
 }));
 
