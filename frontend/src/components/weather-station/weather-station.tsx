@@ -1,5 +1,6 @@
 import React, { FunctionComponent, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from 'StoreTypes';
 
 import { getWeatherStationDataAsyncAction } from '../../features/weather-station/actions';
 import { getWeatherForecastDataAsyncAction } from '../../features/weather-forecast/actions';
@@ -17,19 +18,13 @@ type Props = {
 };
 
 const WeatherStationComponent: FunctionComponent<Props> = () => {
-    /*
-    const [ isLoadingWeatherData, weatherData ]  = useSelector((state: RootState) => [
-        state.weatherStation.isLoadingWeatherData,
-        state.weatherStation.weatherData
-    ]);
-    */
     useDispatchWeatherData();
-
+    const forecastText = useSelector((state: RootState) => state.weatherForecast.forecastText);
 
     return (
         <>
             <WeatherStationHeader />
-            <WeatherWarnings />
+            { forecastText.warning && forecastText.warning.length ? <WeatherWarnings /> : '' }
             <DataAge />
             <CurrentConditions />
             <WeatherForecastWord />

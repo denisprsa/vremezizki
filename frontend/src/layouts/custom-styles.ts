@@ -5,9 +5,7 @@ export const useContainerStyles = makeStyles((theme: Theme) => ({
     root: {
         backgroundColor: theme.palette.background.paper,
         boxShadow: '0 3px 6px 0 rgba(0,0,0,.2)',
-        borderRadius: 5,
-        paddingLeft: '10px',
-        paddingRight: '10px',
+        borderRadius: 5
     },
     currentConditionsBorder: {
         border: `1px solid ${theme.borders.containers}`
