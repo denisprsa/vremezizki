@@ -62,13 +62,8 @@ function useInitialSliderPosition(
     const sliderRef = useRef<HTMLUListElement>(null);
 
     useLayoutEffect(() => {
-        let center = false;
-        if (props.positionCenter && parentSliderRef.current) {
-            center = true;
-        }
-
-        setSliderPosition(setOriginalX, parentSliderRef, sliderRef, positionX, isDragging, center);
-    }, [isDragging, positionX, props.positionCenter, setOriginalX])
+        setSliderPosition(setOriginalX, parentSliderRef, sliderRef, positionX, isDragging);
+    }, [isDragging, positionX, props.positionCenter, setOriginalX]);
 
     return [
         parentSliderRef,
@@ -81,10 +76,8 @@ function setSliderPosition(
     parentSliderRef: React.RefObject<HTMLDivElement>,
     sliderRef: React.RefObject<HTMLUListElement>, 
     positionX: number,
-    isDragging: React.MutableRefObject<boolean>,
-    center: boolean
+    isDragging: React.MutableRefObject<boolean>
 ) {
-    console.log('is center ', center);
 
     if (sliderRef.current && parentSliderRef.current) {
         const sliderViewWidth = parentSliderRef.current.clientWidth;
@@ -113,7 +106,7 @@ function useHandleMouseMove(
     startDraggingPosition: React.MutableRefObject<number>
 ) {
     return useCallback((e: MouseEvent) => {
-        setDeltaX(e.clientX - startDraggingPosition.current)
+        setDeltaX(e.clientX - startDraggingPosition.current);
     }, [setDeltaX, startDraggingPosition]);
 }
 
@@ -156,7 +149,7 @@ function useHandleMouseUp(
         setDeltaX(0);
         startDraggingPosition.current = 0;
         sliderRef.current.removeEventListener('mousemove', handleMouseMove);
-        setSliderPosition(setOriginalX, parentSliderRef, sliderRef, positionX, isDragging, false);
+        setSliderPosition(setOriginalX, parentSliderRef, sliderRef, positionX, isDragging);
     };
 }
 
