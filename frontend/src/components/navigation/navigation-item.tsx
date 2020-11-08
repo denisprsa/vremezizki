@@ -16,7 +16,7 @@ export const NavigationItemLink: FunctionComponent<PropsNavigationItemLink> = (p
             </div>
         </Link>
     );
-}
+};
 
 
 type PropsNavigationItemButton = {
@@ -31,4 +31,4 @@ export const NavigationItemButton: FunctionComponent<PropsNavigationItemButton> 
             { children }
         </div>
     );
-}
+};

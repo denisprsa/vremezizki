@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useCallback } from 'react'
+import React, { FunctionComponent, useCallback } from 'react';
 import { RootState } from 'StoreTypes';
 import { useSelector, useDispatch } from 'react-redux';
 
@@ -58,7 +58,7 @@ const Navigation: FunctionComponent<Props> = () => {
             </div>
         </div>
     );
-}
+};
 
 export default Navigation;
 
