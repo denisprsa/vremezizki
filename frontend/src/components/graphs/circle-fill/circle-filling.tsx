@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, FunctionComponent } from 'react';
+import React, { useState, useEffect, FunctionComponent } from 'react';
 import * as ArcPath from '../helpers/arc-path';
 
 import './circle-filling.scss';
@@ -17,6 +17,7 @@ type Props = {
     minValue: number;
     value: number;
     maxValue: number;
+    widthAndHeight: number;
 };
 
 type AnimateData = {
@@ -28,8 +29,6 @@ type AnimateData = {
 
 const CircleFillChart: FunctionComponent<Props> = (props: Props) => {
     const classes = useProperBackground();
-    const circleFillChartRef = useRef<HTMLDivElement>(null);
-    const widthAndHeight = useRef<number>(0);
     const [graphValues, setGraphValues] = useState<GraphValues>({
         scaleLines: [],
         scaleTexts: [],
@@ -40,20 +39,17 @@ const CircleFillChart: FunctionComponent<Props> = (props: Props) => {
     const circleAnimation = useAnimation(setGraphValues);
 
     useEffect(() => {
-        if (circleFillChartRef.current) {
-            widthAndHeight.current = circleFillChartRef.current.clientWidth;
-            circleAnimation({
-                minValue: props.minValue,
-                actualValue: props.value,
-                maxValue: props.maxValue,
-                widthHeight: circleFillChartRef.current.clientWidth
-            });
-        }
-    }, []);
+        circleAnimation({
+            minValue: props.minValue,
+            actualValue: props.value,
+            maxValue: props.maxValue,
+            widthHeight: props.widthAndHeight
+        });
+    }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
     return (
-        <div ref={circleFillChartRef} className="circle-fill-chart">
-            <svg className="circle-chart-svg" width={widthAndHeight.current} height={widthAndHeight.current}>
+        <div className="circle-fill-chart" style={{width: `${props.widthAndHeight}px`, height: `${props.widthAndHeight}px`}}>
+            <svg className="circle-chart-svg" width={props.widthAndHeight} height={props.widthAndHeight}>
                 <g className="circle-chart-scale">
                     <g className={classes.circleGraphStroke}>{graphValues.scaleLines}</g>
                     <g className={`${classes.strokeFillTextPrimary} circle-scale-text`}>{graphValues.scaleTexts}</g>
@@ -67,7 +63,7 @@ const CircleFillChart: FunctionComponent<Props> = (props: Props) => {
             </div>
         </div>
     );
-}
+};
 
 export default CircleFillChart;
 
