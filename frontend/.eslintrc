@@ -13,9 +13,13 @@
         "plugin:react/recommended",
         "plugin:@typescript-eslint/recommended"
     ],
+    "plugins": [
+        "react-hooks"
+    ],
     "rules": {
         "indent": ["error", 4],
-        "quotes": [2, "single", { "avoidEscape": true }]
+        "quotes": [2, "single", { "avoidEscape": true }],
+        "semi": [2, "always"]
     },
     "env": {
         "browser": true,
