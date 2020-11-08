@@ -10,6 +10,7 @@ export const fetchWeatherStationData: RootEpic = (action$, _, { weatherData }) =
         filter(isActionOf(getWeatherStationDataAsyncAction.request)),
         switchMap(action => from(weatherData.getWeatherData(action.payload))
             .pipe(
+                map(data => data.map(record => ({ ...record, date: new Date(record.datetime) }))),
                 map(getWeatherStationDataAsyncAction.success),
                 catchError((message: string) => of(getWeatherStationDataAsyncAction.failure(message)))
             )

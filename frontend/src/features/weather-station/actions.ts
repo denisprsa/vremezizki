@@ -1,10 +1,8 @@
-import { createAsyncAction, createAction } from 'typesafe-actions';
-import { WeatherStationData } from './interfaces';
-
-export const addWeatherStationData = createAction('weatherStation/data/add');
+import { createAsyncAction } from 'typesafe-actions';
+import { WeatherStationData, WeatherDataRequestParameters } from './interfaces';
 
 export const getWeatherStationDataAsyncAction = createAsyncAction(
     'weatherStation/data/get/request',
     'weatherStation/data/get/success',
     'weatherStation/data/get/failure'
-)<{id: string}, WeatherStationData[], string>();
+)<WeatherDataRequestParameters, WeatherStationData[], string>();
