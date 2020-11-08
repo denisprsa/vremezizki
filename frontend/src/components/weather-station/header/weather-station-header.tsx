@@ -16,7 +16,7 @@ const WeatherStationHeader: FunctionComponent<Props> = () => {
                     <Grid item xs={12}>
                         <div className="weather-station-header-title"> Vremenska postaja Žižki </div>
                         <div className="weather-station-header-image"
-                            style={{ backgroundImage: 'url(/assets/header/summer.jpg)' }}>
+                            style={{ backgroundImage: 'url(/assets/header/header-supercell-2.png)' }}>
                         </div>
                     </Grid>
                 </Grid>
