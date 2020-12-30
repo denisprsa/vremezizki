@@ -3,7 +3,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'StoreTypes';
 
 import { getWeatherStationDataAsyncAction } from '../../features/weather-station/actions';
-import { getWeatherForecastDataAsyncAction } from '../../features/weather-forecast/actions';
+import {
+    getHourlyWeatherForecastDataAsyncAction,
+    getWeatherForecastDataAsyncAction } from '../../features/weather-forecast/actions';
 import WeatherStationHeader from './header/weather-station-header';
 import WeatherWarnings from './weather-warnings/weather-warnings';
 import WeatherForecastWord from './weather-forecast-word/weather-forecast-word';
@@ -42,5 +44,6 @@ function useDispatchWeatherData() {
     useEffect(() => {
         dispatch(getWeatherStationDataAsyncAction.request({}));
         dispatch(getWeatherForecastDataAsyncAction.request());
+        dispatch(getHourlyWeatherForecastDataAsyncAction.request());
     }, [dispatch]);
 }

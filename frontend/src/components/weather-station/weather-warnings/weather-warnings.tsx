@@ -5,7 +5,7 @@ import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { useWarningStyles, useContainerStyles } from '../../../layouts/custom-styles';
-import H2Title from '../../layout/titles/h2-title';
+// import H2Title from '../../layout/titles/h2-title';
 import { useSelector } from 'react-redux';
 
 type Props = {
@@ -20,9 +20,9 @@ const WeatherWarnings: FunctionComponent<Props> = () => {
     const warningText = forecastText.warning?.map((text, index) => 
         <Typography
             key={index}
-            color="textPrimary"
             align="center"
-            variant="body2">
+            variant="body1"
+            style={{ fontWeight: 'bold', padding: '10px 0' }}>
             {text}
         </Typography>
     );
@@ -33,7 +33,10 @@ const WeatherWarnings: FunctionComponent<Props> = () => {
                 <Grid container className={`${containerClasses.root} ${warningClasses.root}`}>
                     <Grid item xs={12}>
                         <Box m={1}>
-                            <H2Title title="Opozorila"/>
+                            <Typography
+                                align="center"
+                                variant="h5"
+                                style={{ fontWeight: 'bold', padding: '15px 0' }}>Opozorila</Typography>
                             {warningText}
                         </Box>
                     </Grid>

@@ -28,8 +28,8 @@ export const RenderCurrentWeatherInfographic: FunctionComponent<Props> = () => {
         <div ref={infographicRef} className="infographic-wrapper">
             <svg width={width} height={height}>
                 { drawFrame(width, height) }
-                { drawStars(width, height) }
-                { drawMoon(width, height) }
+                { !isDaylight() ? drawStars(width, height) : '' }
+                { !isDaylight() ? drawMoon(width, height) : drawSun(width, height) }
                 { drawClouds(width) }
             </svg>
         </div>
@@ -40,6 +40,18 @@ export function drawClouds(width: number): JSX.Element {
     return (
         <g>
             { drawCloudPartlyCloudy(width)}
+        </g>
+    );
+}
+
+export function drawSun(width: number, height: number): JSX.Element {
+    const r = Math.min(width, height) / 9;
+    const smallR = Math.min(width, height);
+
+    return (
+        <g>
+            <circle cx={5*r} cy={3*r} r={smallR/7} fill="rgba(218, 178, 42, 0.2)"/>
+            <circle cx={5*r} cy={3*r} r={smallR/9} fill="#dab229"/>
         </g>
     );
 }

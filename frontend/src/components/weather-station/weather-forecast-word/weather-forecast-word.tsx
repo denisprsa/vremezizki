@@ -90,5 +90,7 @@ function createForecastTextContent(forecastText: WeatherForecastState) {
                 { text }
             </Box>;
         }
+
+        return <React.Fragment key={index}/>;
     });
 }

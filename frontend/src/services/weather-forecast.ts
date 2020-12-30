@@ -9,3 +9,13 @@ export const getWeatherForecast = async (): Promise<WeatherForecastResponseData>
 
     return body;
 };
+
+export const getHourlyWeatherForecast = async (): Promise<any> => {
+    const url = 'https://vreme.arso.gov.si/api/1.0/location/?lang=sl&location=Lendava';
+    
+    const data = await fetchRequest(url);
+    const body = await data.json();
+
+    console.log(body);
+    return body;
+};
