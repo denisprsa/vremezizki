@@ -17,15 +17,10 @@ export class WeatherController {
     @Returns(200, { description: 'Success' })
     async addWeatherStationData(
         @Res() response: Express.Response,
-        @Next() next: Express.NextFunction,
         @BodyParams({ useType: WeatherStationDataModel }) body: WeatherStationData
     ): Promise<void> {
-        try {
-            await this.dependencies.weatherService.createWeatherStationRecord(body);
-            response.end();
-        } catch (e) {
-            throw e;
-        }
+        await this.dependencies.weatherService.createWeatherStationRecord(body);
+        response.end();
     }
 
     @Get('/weather-station/measurements')
@@ -34,11 +29,13 @@ export class WeatherController {
     @ReturnsArray(200, { description: 'Success', type: WeatherStationDataModel })
     async getWeatherStationData(
         @Res() response: Express.Response,
-        @Next() next: Express.NextFunction,
-        @Required() @QueryParams('from') from: string,
-        @Required() @QueryParams('to') to: string
+        @QueryParams('from')
+        @Description('Start ISO String date')
+        from: string,
+        @QueryParams('to')
+        @Description('End ISO String date')
+        to: string
     ): Promise<void> {
-
         let data = await this.dependencies.weatherService.getWeatherStationRecords(from, to);
         response.set('Access-Control-Allow-Origin', '*');
         response.json(data);

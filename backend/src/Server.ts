@@ -9,6 +9,7 @@ import methodOverride from 'method-override';
 import * as Path from 'path';
 import DependencyService from './services/DependencyService';
 import { WeatherStationData } from './interfaces/WeatherStationData';
+import GlobalErrorHandlerMiddleware from './middlewares/GlobalErrorHandlerMiddleware';
 
 const rootDir: string = Path.resolve(__dirname);
 const dependencyService: DependencyService = DependencyService.createInstance();
@@ -63,15 +64,16 @@ export class Server extends ServerLoader {
             let id = Math.random().toString();
             dependencyService.connectedWebSockets.set(id, ws);
 
-            setInterval(() => {
-                ws.send(JSON.stringify(getGeneratedWeatherData()));
-            }, 10000);
-
             ws.on('close', () => {
                 dependencyService.connectedWebSockets.delete(id);
             });
         });
     }
+
+    public async $afterRoutesInit(): Promise<void> {
+        this.use(GlobalErrorHandlerMiddleware);
+    }
+
 }
 
 let temperature = 20;

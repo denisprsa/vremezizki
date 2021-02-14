@@ -2,7 +2,6 @@ import { createConnection, Connection, Query } from 'mysql';
 import { readFileSync } from 'fs';
 import { join } from 'path';
 import { WeatherStationData } from '../interfaces/WeatherStationData';
-import { resolve } from 'dns';
 
 export default class MySqlDatabase {
     private connection: Connection;
