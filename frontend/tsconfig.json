@@ -1,0 +1,18 @@
+{
+    "include": [
+        "src/**/*.ts",
+        "src/**/*.tsx"
+    ],
+    "exclude": [
+      "src/**/*.spec.*",
+      "node_modules",
+      "build",
+      "scripts",
+      "acceptance-tests",
+      "webpack",
+      "jest",
+      "src/setupTests.ts"
+    ],
+    "extends": "./node_modules/react-redux-typescript-scripts/tsconfig.json",
+    "compilerOptions": {}
+}

@@ -1,0 +1,87 @@
+{
+    "name": "api-vremezizki",
+    "version": "1.0.0",
+    "description": "backend vremezizki",
+    "main": "index.js",
+    "dependencies": {
+        "@tsed/common": "5.44.10",
+        "@tsed/core": "5.44.10",
+        "@tsed/di": "5.44.10",
+        "@tsed/swagger": "5.44.10",
+        "@types/swagger-schema-official": "^2.0.19",
+        "body-parser": "^1.19.0",
+        "compression": "^1.7.4",
+        "cookie-parser": "^1.4.4",
+        "event-wait": "^1.0.5",
+        "express": "^4.17.1",
+        "forever": "3.0.4",
+        "luxon": "^1.26.0",
+        "method-override": "^3.0.0",
+        "mysql": "^2.17.1",
+        "ts-httpexceptions": "^4.1.0",
+        "ws": "^7.2.0"
+    },
+    "devDependencies": {
+        "@types/compression": "^1.0.1",
+        "@types/cookie-parser": "^1.4.2",
+        "@types/express": "^4.17.2",
+        "@types/luxon": "^1.25.2",
+        "@types/method-override": "0.0.31",
+        "@types/mocha": "^5.2.7",
+        "@types/mysql": "^2.15.7",
+        "@types/node": "^12.12.5",
+        "@types/sinon": "^7.5.0",
+        "@types/ws": "^6.0.3",
+        "@typescript-eslint/eslint-plugin": "^2.6.1",
+        "@typescript-eslint/parser": "^2.6.1",
+        "eslint": "^6.6.0",
+        "eslint-plugin-notice": "^0.8.9",
+        "mocha": "^6.2.2",
+        "mockdate": "^2.0.5",
+        "nodemon": "^1.19.4",
+        "nyc": "^14.1.1",
+        "sinon": "^7.5.0",
+        "ts-mockito": "^2.5.0",
+        "ts-node": "^8.4.1",
+        "typescript": "^3.7.2"
+    },
+    "nyc": {
+        "include": [
+            "src/**/*.ts"
+        ],
+        "extension": [
+            ".ts"
+        ],
+        "exclude": [
+            "build/**",
+            "src/models/**",
+            "src/controllers/**",
+            "src/swagger-models/**",
+            "src/enums/**",
+            "src/index.ts",
+            "src/Server.ts"
+        ],
+        "require": [
+            "ts-node/register"
+        ],
+        "reporter": [
+            "cobertura",
+            "text-summary",
+            "html",
+            "json"
+        ],
+        "sourceMap": true,
+        "instrument": true
+    },
+    "scripts": {
+        "build": "npm run tsc",
+        "coverage": "npm run test-cov && npm run test-remap",
+        "tslint": "tslint ./*.ts ./lib/*.ts",
+        "test": "export TS_NODE_TRANSPILE_ONLY=1 || set TS_NODE_TRANSPILE_ONLY=1 && nyc --all --report-dir coverage --reporter=html --reporter=json --reporter=cobertura mocha src/test/**/*.spec.js",
+        "tsc": "tsc --project tsconfig.json",
+        "tsc:w": "tsc -w",
+        "start": "npm run build && node build/passenger.js"
+    },
+    "author": "denisp",
+    "license": "UNLICENSED"
+}
