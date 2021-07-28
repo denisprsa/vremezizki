@@ -5,10 +5,10 @@ type Props = {
 };
 
 const Settings: FunctionComponent<Props> = () => {
-    return (
-        <>
-        </>
-    );
+  return (
+    <>
+    </>
+  );
 };
 
 export default Settings;

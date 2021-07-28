@@ -4,23 +4,23 @@ import { createBrowserHistory } from 'history';
 import { routerMiddleware } from 'connected-react-router';
 
 import { RootAction, RootState, Services } from 'StoreTypes';
-import { rootReducer } from './root-reducer';
-import rootEpic from './root-epic';
-import services from '../services';
+import { rootReducer } from 'store/root-reducer';
+import rootEpic from 'store/root-epic';
+import services from 'services';
 
 // Configure middleware
 export const history = createBrowserHistory();
 export const epicMiddleware = createEpicMiddleware<
-  RootAction,
-  RootAction,
-  RootState,
-  Services
+RootAction,
+RootAction,
+RootState,
+Services
 >({
-    dependencies: services,
+  dependencies: services,
 });
 const middleware = [
-    routerMiddleware(history),
-    epicMiddleware
+  routerMiddleware(history),
+  epicMiddleware
 ];
 
 // Enhancers
@@ -31,13 +31,13 @@ const initialState = {};
 
 // Store
 const store = createStore(
-    rootReducer(history),
-    initialState,
-    composeEnhancers(applyMiddleware(...middleware)),
+  rootReducer(history),
+  initialState,
+  composeEnhancers(applyMiddleware(...middleware)),
 );
 
 store.subscribe(() => {
-    // Empty for now
+  // Empty for now
 });
 
 epicMiddleware.run(rootEpic);

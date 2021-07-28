@@ -8,10 +8,10 @@ import { theme } from '../features/theme/reducers';
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const rootReducer = (history: History<History.PoorMansUnknown>) => combineReducers({
-    router: connectRouter(history),
-    weatherStation,
-    weatherForecast,
-    theme
+  router: connectRouter(history),
+  weatherStation,
+  weatherForecast,
+  theme
 });
 
 export default rootReducer;

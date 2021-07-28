@@ -3,26 +3,21 @@ import { fetchRequest } from './request-api';
 import { WeatherDataRequestParameters } from './../features/weather-station/interfaces';
 
 export const getWeatherData = async (parameters: WeatherDataRequestParameters): Promise<WeatherStationData[]> => {
-    let dateFrom = new Date();
-    dateFrom.setHours(0);
+  const url = new URL('/weather-station/measurements', 'https://api.vremezizki.si');
+  const urlSearchParams = new URLSearchParams();
 
-    let toDate = new Date();
-    toDate.setHours(23);
-    toDate.setMinutes(59);
-    toDate.setSeconds(59);
+  if (parameters.fromDate) {
+    urlSearchParams.append('from', parameters.fromDate.toISOString());
+  }
 
-    if (parameters.fromDate) {
-        dateFrom = parameters.fromDate;
-    }
+  if (parameters.toDate) {
+    urlSearchParams.append('to', parameters.toDate.toISOString());
+  }
 
-    if (parameters.toDate) {
-        toDate = parameters.toDate;
-    }
+  url.search = urlSearchParams.toString();
 
-    const url = `https://api.vremezizki.si/weather-station/measurements?from=${dateFrom.toISOString()}&to=${toDate.toISOString()}`;
-    const data = await fetchRequest(url);
+  const data = await fetchRequest(url.toString());
+  const body = await data.json();
 
-    const body = data.json();
-
-    return body;
+  return body;
 };

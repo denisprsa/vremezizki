@@ -6,14 +6,14 @@ import { isActionOf } from 'typesafe-actions';
 import { getWeatherStationDataAsyncAction } from './actions';
 
 export const fetchWeatherStationData: RootEpic = (action$, _, { weatherData }) =>
-    action$.pipe(
-        filter(isActionOf(getWeatherStationDataAsyncAction.request)),
-        switchMap(action => from(weatherData.getWeatherData(action.payload))
-            .pipe(
-                map(data => data.map(record => ({ ...record, date: new Date(record.datetime) }))),
-                map(getWeatherStationDataAsyncAction.success),
-                catchError((message: string) => of(getWeatherStationDataAsyncAction.failure(message)))
-            )
-        )
-    );
+  action$.pipe(
+    filter(isActionOf(getWeatherStationDataAsyncAction.request)),
+    switchMap(action => from(weatherData.getWeatherData(action.payload))
+      .pipe(
+        map(data => data.map(record => ({ ...record, date: new Date(record.datetime) }))),
+        map(data => getWeatherStationDataAsyncAction.success({ data, parameters: action.payload })),
+        catchError((message: string) => of(getWeatherStationDataAsyncAction.failure(message)))
+      )
+    )
+  );
   

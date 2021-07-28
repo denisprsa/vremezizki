@@ -1,29 +1,28 @@
-
 .carousel-mobile {
-    align-items: stretch;
-    display: inline-flex;
-    -webkit-overflow-scrolling: touch;
-    overflow-x: scroll;
-    overflow-y: hidden;
+  align-items: stretch;
+  display: inline-flex;
+  -webkit-overflow-scrolling: touch;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  position: relative;
+  white-space: nowrap;
+  touch-action: pan-left pan-right;
+  width: 100%;
+  padding: 0px;
+  margin: 0px;
+  scroll-snap-type: x mandatory;
+  scroll-padding: 50%;
+
+  .carousel-mobile-item {
+    display: block;
+    flex-shrink: 0;
+    overflow: hidden;
     position: relative;
-    white-space: nowrap;
-    touch-action: pan-left pan-right;
-    width: 100%;
-    padding: 0px;
-    margin: 0px;
-    scroll-snap-type: x mandatory;
-    scroll-padding: 50%;
+    pointer-events: none;
+    scroll-snap-align: center;
 
-    .carousel-mobile-item {
-        display: block;
-        flex-shrink: 0;
-        overflow: hidden;
-        position: relative;
-        pointer-events: none;
-        scroll-snap-align: center;
-
-        &:hover {
-            cursor: pointer;
-        }
+    &:hover {
+      cursor: pointer;
     }
+  }
 }

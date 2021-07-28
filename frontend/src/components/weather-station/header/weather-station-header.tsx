@@ -9,20 +9,20 @@ type Props = {
 }
 
 const WeatherStationHeader: FunctionComponent<Props> = () => {
-    return (
-        <Box>
-            <Container fixed>
-                <Grid container>
-                    <Grid item xs={12}>
-                        <div className="weather-station-header-title"> Vremenska postaja Žižki </div>
-                        <div className="weather-station-header-image"
-                            style={{ backgroundImage: 'url(/assets/header/header-supercell-2.png)' }}>
-                        </div>
-                    </Grid>
-                </Grid>
-            </Container>
-        </Box>
-    );
+  return (
+    <Box>
+      <Container fixed>
+        <Grid container>
+          <Grid item xs={12}>
+            <div className="weather-station-header-title"> Vremenska postaja Žižki </div>
+            <div className="weather-station-header-image"
+              style={{ backgroundImage: 'url(/assets/header/header-supercell-2.png)' }}>
+            </div>
+          </Grid>
+        </Grid>
+      </Container>
+    </Box>
+  );
 };
 
 export default WeatherStationHeader;

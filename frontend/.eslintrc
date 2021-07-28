@@ -1,29 +1,45 @@
 {
-    "parser": "@typescript-eslint/parser",
-    "parserOptions": {
-        "ecmaVersion": 2020,
-        "sourceType": "module" 
-    },
-    "settings": {
-        "react": {
-            "version": "detect"
-        }
-    },
-    "extends": [
-        "plugin:react/recommended",
-        "plugin:@typescript-eslint/recommended"
-    ],
-    "plugins": [
-        "react-hooks"
-    ],
-    "rules": {
-        "indent": ["error", 4],
-        "quotes": [2, "single", { "avoidEscape": true }],
-        "semi": [2, "always"]
-    },
-    "env": {
-        "browser": true,
-        "node": true,
-        "jest": true
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": 2020,
+    "sourceType": "module"
+  },
+  "settings": {
+    "react": {
+      "version": "detect"
     }
+  },
+  "extends": [
+    "plugin:react/recommended",
+    "plugin:@typescript-eslint/recommended"
+  ],
+  "plugins": [
+    "@typescript-eslint",
+    "react-hooks"
+  ],
+  "rules": {
+    "indent": "off",
+    "@typescript-eslint/indent": [
+      "error",
+      2
+    ],
+    "quotes": [
+      2,
+      "single",
+      {
+        "avoidEscape": true
+      }
+    ],
+    "semi": [
+      2,
+      "always"
+    ],
+    "no-unused-vars": 0,
+    "@typescript-eslint/no-unused-vars": 0
+  },
+  "env": {
+    "browser": true,
+    "node": true,
+    "jest": true
+  }
 }

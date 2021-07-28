@@ -5,10 +5,10 @@ type Props = {
 };
 
 const ArcPath: FunctionComponent<Props> = () => {
-    return (
-        <>
-        </>
-    );
+  return (
+    <>
+    </>
+  );
 };
 
 export default ArcPath;

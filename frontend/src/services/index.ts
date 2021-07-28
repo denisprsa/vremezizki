@@ -3,7 +3,7 @@ import * as weatherData from './weather-data';
 import * as weatherForecast from './weather-forecast';
 
 export default {
-    logger,
-    weatherData,
-    weatherForecast
+  logger,
+  weatherData,
+  weatherForecast
 };
