@@ -1,0 +1,32 @@
+.carousel-desktop-wrapper {
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  position: relative;
+
+  .carousel-desktop {
+    transition: transform 0.3s ease-out;
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    transform-style: preserve-3d;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    will-change: transform, transition;
+    transition: none 0s ease 0s;
+    overflow: unset;
+    touch-action: pan-left pan-right;
+    padding: 0px;
+    margin: 0px;
+
+    .carousel-desktop-item {
+      pointer-events: none;
+    }
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}

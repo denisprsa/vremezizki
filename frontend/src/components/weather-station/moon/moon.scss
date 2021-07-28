@@ -1,0 +1,39 @@
+.moon-wrapper {
+  .moon-item {
+    width: 150px;
+    margin: 15px 5px 15px 5px;
+    border-radius: 5px;
+    text-align: center;
+
+    .astronomy-moon-slider-item-icon-wrapper {
+      height: 163px;
+      transition: height 0.5s ease;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      .astronomy-moon-slider-item-icon {
+        transition: width 0.5s ease;
+        width: 75px;
+      }
+    }
+
+    .astronomy-moon-day-name {
+      font-weight: bold;
+      font-size: 14px;
+      padding-bottom: 5px;
+    }
+
+    .astronomy-moon-illumination {
+      font-size: 12px;
+    }
+
+    .astronomy-moon-spacing {
+      height: 15px;
+    }
+
+    &:hover {
+      cursor: help;
+    }
+  }
+}

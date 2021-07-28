@@ -1,0 +1,87 @@
+.rain-chart {
+  text-align: center;
+  position: relative;
+
+  .rain-chart-rain-animation {
+    position: absolute;
+
+    .rain-chart-rain-animation-wrapper {
+      border-radius: 50%;
+      overflow: hidden;
+      backface-visibility: hidden;
+      transform: translateZ(0);
+
+      .rain-chart-animation-svg {
+        .rain-chart-wave-shape-fill {
+          animation-name: fillAction;
+          animation-iteration-count: 1;
+          animation-timing-function: linear;
+          animation-duration: 1.5s;
+          animation-fill-mode: forwards;
+
+          .rain-chart-wave-shape {
+            animation-name: waveAction;
+            animation-iteration-count: infinite;
+            animation-timing-function: linear;
+            animation-duration: 0.6s;
+            width: 300px;
+            height: 150px;
+          }
+        }
+      }
+    }
+  }
+
+  .rain-chart-svg {
+    position: relative;
+    display: inline-block;
+
+    .rain-chart-outline {
+      fill: #a5a5a5;
+    }
+  }
+
+  .rain-chart-output {
+    font-weight: 700;
+    border-radius: 60px 60px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+
+    .rain-chart-value {
+      color: #fff;
+      font-size: 22px;
+      line-height: 32px;
+      padding-right: 12px;
+      letter-spacing: -1px;
+    }
+
+    .rain-chart-unit {
+      color: #fff;
+      position: absolute;
+      top: -3px;
+      font-size: 10px;
+      right: 0;
+      line-height: 10px;
+    }
+  }
+}
+
+@keyframes fillAction {
+  0% {
+    transform: translate(0, 120px);
+  }
+  100% {
+    transform: translate(0, 25px);
+  }
+}
+@keyframes waveAction {
+  0% {
+    transform: translate(-150px, 0);
+  }
+  100% {
+    transform: translate(0, 0);
+  }
+}
