@@ -39,16 +39,6 @@ const Navigation: FunctionComponent<Props> = () => {
             <BarChart />
           </IconButton>
         </NavigationItemLink>
-        <NavigationItemLink navigationItemStyle={navigationItemStyle} location="/chat">
-          <IconButton aria-label="forum" component="span">
-            <Forum />
-          </IconButton>
-        </NavigationItemLink>
-        <NavigationItemLink navigationItemStyle={navigationItemStyle} location="/map">
-          <IconButton aria-label="map" component="span">
-            <Map />
-          </IconButton>
-        </NavigationItemLink>
       </div>
       <div>
         <NavigationItemButton>
@@ -56,11 +46,6 @@ const Navigation: FunctionComponent<Props> = () => {
             { isDark ? <LightThemeIcon /> : <DarkThemeIcon /> }
           </IconButton>
         </NavigationItemButton>
-        <NavigationItemLink navigationItemStyle={navigationItemStyle} location="/settings">
-          <IconButton aria-label="settings" component="span">
-            <Settings />
-          </IconButton>
-        </NavigationItemLink>
       </div>
     </div>
   );

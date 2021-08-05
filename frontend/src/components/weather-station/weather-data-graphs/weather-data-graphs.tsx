@@ -10,7 +10,11 @@ import { scaleTime, scaleLinear, extent } from 'd3';
 import Line from 'components/weather-station/weather-data-graphs/line-plot';
 import ScatterPlot from 'components/weather-station/weather-data-graphs/scatter-plot';
 import YAxis from 'components/weather-station/weather-data-graphs/y-axis';
-import { KeyboardDateTimePicker } from '@material-ui/pickers';
+import YGrid from 'components/weather-station/weather-data-graphs/y-grid';
+import { KeyboardDatePicker } from '@material-ui/pickers';
+import Button from '@material-ui/core/Button';
+import { DateTime, Duration } from 'luxon';
+
 
 import './weather-data-graphs.scss';
 
@@ -41,7 +45,7 @@ const WeatherDataGraphs: FunctionComponent<Props> = () => {
   const rainColor = '#0053ae';
   const pressureColor = '#1e2023';
 
-  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [selectedDate, setSelectedDate] = useState<DateTime>(DateTime.now());
 
   const [graphWidth, setGraphWidth] = useState<number>(0);
   const [graphHeight, setGraphHeight] = useState<number>(0);
@@ -69,7 +73,6 @@ const WeatherDataGraphs: FunctionComponent<Props> = () => {
   }, []);
 
   const calculateScale = useCallback((date: Date[], scalesNice: number, yDomain: number[]) => {
-    console.log(plotHeight);
     const xScale = scaleTime<number, number>();
     const yScale = scaleLinear().nice(scalesNice);
 
@@ -114,7 +117,6 @@ const WeatherDataGraphs: FunctionComponent<Props> = () => {
       Math.round(Math.max(temperatureDomain[1], dewPointDomain[1]) + 3)
     ];
 
-    console.log(tempDewPointDomain);
     const temperatureScale = calculateScale(weatherDataGraph.date, 5, tempDewPointDomain);
     const temperatureMetadata = getMetadata(temperatureScale, temperatureColor);
     const dewPointMetadata = getMetadata(temperatureScale, dewPointColor);
@@ -170,10 +172,34 @@ const WeatherDataGraphs: FunctionComponent<Props> = () => {
     setPressurePlotData({ weatherGraphMetadata: pressureMetadata, weatherGraphData: pressurePlotData });
   }, [isLoadingWeatherData, weatherDataGraph, getYDomain, calculateScale, getMetadata, getPlotData]);
 
-  const handleDateChange = useCallback((date: Date) => {
-    console.log(date);
-    setSelectedDate(date);
+  const isDatePast = (date: DateTime) => {
+    const diff = date.diffNow(['days', 'milliseconds']);
+    return diff.milliseconds < 1 || (
+      diff.milliseconds > 0
+      && diff.days === 0
+      && date.day === DateTime.now().day
+    );
+  };
+
+  const handleDateChange = useCallback((date: DateTime | null) => {
+    if (date && isDatePast(date)) {
+      setSelectedDate(date);
+    }
   }, []);
+
+  const nextDay = useCallback(() => {
+    const newDate =  selectedDate.plus({ days: 1 });
+    if (isDatePast(newDate)) {
+      setSelectedDate(newDate);
+    }
+  }, [selectedDate]);
+
+  const previousDay = useCallback(() => {
+    const newDate = selectedDate.plus({ days: -1 });
+    if (isDatePast(newDate)) {
+      setSelectedDate(newDate);
+    }
+  }, [selectedDate]);
 
   useEffect(() => {
     calculateGraphData();
@@ -195,6 +221,10 @@ const WeatherDataGraphs: FunctionComponent<Props> = () => {
     return () => window.removeEventListener('resize', onResize);
   }, [isLoadingWeatherData, weatherDataGraph, calculateGraphData]);
 
+  useEffect(() => {
+    console.log(selectedDate);
+  }, [selectedDate]);
+
   const calculateMarginForGraph = (plotIndex: number) => {
     return plotHeight * plotIndex + marginFirstAndLastGraph + marginTopBetweenGraphs * plotIndex;
   };
@@ -206,20 +236,22 @@ const WeatherDataGraphs: FunctionComponent<Props> = () => {
           <Grid item xs={12}>
             <div className="data-graph-controls">
               <div>
-                Prejsnji dan
+                <Button variant="outlined" onClick={previousDay}>Prejšnji dan</Button>
               </div>
               <div>
-                <KeyboardDateTimePicker
+                <KeyboardDatePicker
                   disableFuture
-                  ampm={false}
                   label="Izberi datum"
                   variant="inline"
-                  format="dd.MM.yyyy HH:mm"
+                  format="dd.MM.yyyy"
                   value={selectedDate}
-                  onChange={handleDateChange} />
+                  onChange={handleDateChange}
+                  style={{
+                    width: 130
+                  }}/>
               </div>
               <div>
-                Naslednji dan
+                <Button variant="outlined" onClick={nextDay}>Naslednji dan</Button>
               </div>
             </div>
 
@@ -232,9 +264,9 @@ const WeatherDataGraphs: FunctionComponent<Props> = () => {
                 height={plotHeight}
                 transform={`translate(0, ${marginFirstAndLastGraph})`} />
               {
-                // temperaturePlot && <YGrid
-                //     metadata={temperaturePlot.weatherGraphMetadata}
-                //     transform="translate(0, 20)"/>
+                temperaturePlot && <YGrid
+                  metadata={temperaturePlot.weatherGraphMetadata}
+                  transform="translate(0, 20)"/>
               }
               {
                 temperaturePlot && <Line
@@ -262,9 +294,9 @@ const WeatherDataGraphs: FunctionComponent<Props> = () => {
                 className={`${weatherGraphClasses.rect}`}
                 transform={`translate(0, ${calculateMarginForGraph(1)})`} />
               {
-                // humidityPlotData && <YGrid
-                //     metadata={humidityPlotData.weatherGraphMetadata}
-                //     transform={`translate(0, ${calculateMarginForGraph(1)})`}/>
+                humidityPlotData && <YGrid
+                  metadata={humidityPlotData.weatherGraphMetadata}
+                  transform={`translate(0, ${calculateMarginForGraph(1)})`}/>
               }
               {
                 // Humidity line
@@ -287,9 +319,9 @@ const WeatherDataGraphs: FunctionComponent<Props> = () => {
                 className={`${weatherGraphClasses.rect}`}
                 transform={`translate(0, ${calculateMarginForGraph(2)})`} />
               {
-                // windSpeedPlotData && <YGrid
-                //     metadata={windSpeedPlotData.weatherGraphMetadata}
-                //     transform={`translate(0, ${calculateMarginForGraph(2)})`}/>
+                windSpeedPlotData && <YGrid
+                  metadata={windSpeedPlotData.weatherGraphMetadata}
+                  transform={`translate(0, ${calculateMarginForGraph(2)})`}/>
               }
               {
                 // Wind speed line
@@ -320,10 +352,10 @@ const WeatherDataGraphs: FunctionComponent<Props> = () => {
                 className={`${weatherGraphClasses.rect}`}
                 transform={`translate(0, ${calculateMarginForGraph(3)})`} />
               {
-                // windDirectionPlotData && <YGrid
-                //     tickValues={[0,60,120,180,240,300,360]}
-                //     metadata={windDirectionPlotData.weatherGraphMetadata}
-                //     transform={`translate(0, ${calculateMarginForGraph(3)})`}/>
+                windDirectionPlotData && <YGrid
+                  tickValues={[0,60,120,180,240,300,360]}
+                  metadata={windDirectionPlotData.weatherGraphMetadata}
+                  transform={`translate(0, ${calculateMarginForGraph(3)})`}/>
               }
               {
                 // Wind direction line
@@ -348,9 +380,9 @@ const WeatherDataGraphs: FunctionComponent<Props> = () => {
                 className={`${weatherGraphClasses.rect}`}
                 transform={`translate(0, ${calculateMarginForGraph(4)})`} />
               {
-                // rainPlotData && <YGrid
-                //     metadata={rainPlotData.weatherGraphMetadata}
-                //     transform={`translate(0, ${calculateMarginForGraph(4)})`}/>
+                rainPlotData && <YGrid
+                  metadata={rainPlotData.weatherGraphMetadata}
+                  transform={`translate(0, ${calculateMarginForGraph(4)})`}/>
               }
               {
                 // Rain line
@@ -373,9 +405,9 @@ const WeatherDataGraphs: FunctionComponent<Props> = () => {
                 className={`${weatherGraphClasses.rect}`}
                 transform={`translate(0, ${calculateMarginForGraph(5)})`} />
               {
-                // pressurePlotData && <YGrid
-                //     metadata={pressurePlotData.weatherGraphMetadata}
-                //     transform={`translate(0, ${calculateMarginForGraph(5)})`}/>
+                pressurePlotData && <YGrid
+                  metadata={pressurePlotData.weatherGraphMetadata}
+                  transform={`translate(0, ${calculateMarginForGraph(5)})`}/>
               }
               {
                 // Pressure line

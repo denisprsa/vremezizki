@@ -8,7 +8,7 @@ export const useForecastGraphStyles = makeStyles(() => ({
 
 export const useWeatherGraphStyles = makeStyles((theme: Theme) => ({
   rect: {
-    fill: theme.palette.type === 'dark' ? 'rgba(84,84,84,0.4)' : 'rgba(84,84,84,0.15)'
+    fill: theme.palette.type === 'dark' ? 'rgba(84,84,84,0.4)' : 'rgba(34,150,243,0.15)'
   }
 }));
 

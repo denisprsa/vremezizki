@@ -6,14 +6,14 @@ import { useSelector } from 'react-redux';
 
 import { history } from '../store/store';
 import WeatherStation from './weather-station/weather-station';
-import Chat from './chat/chat';
+import NotFound from './not-found/not-found';
 import Navigation from './navigation/navigation';
+import Footer from './footer/footer';
+import { getTheme } from '../features/theme/get-theme';
 
 import './app.scss';
-import Settings from './settings/settings';
+
 import { ThemeProvider, CssBaseline } from '@material-ui/core';
-import { getTheme } from '../features/theme/get-theme';
-import Footer from './footer/footer';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import LuxonUtils from '@date-io/luxon';
 
@@ -36,8 +36,7 @@ const App: FunctionComponent = () => {
             <main className="main-app-content-wrapper">
               <Switch>
                 <Route exact path="/" component={WeatherStation}/>
-                <Route exact path="/chat" component={Chat}/>
-                <Route exact path="/settings" component={Settings}/>
+                <Route component={NotFound}/>
               </Switch>
               <Footer />
             </main>
